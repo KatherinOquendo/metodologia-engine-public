@@ -24,7 +24,7 @@ BLOCKED_REPORTS=$(find "$OUTPUTS_DIR" -name "verification-report_*" -type f 2>/d
 
 # ─── 3. Check for red list words in proposal files (quick spot check) ────────
 RED_LIST_HITS=$(find "$OUTPUTS_DIR" -name "propuesta_*" -newer "$OUTPUTS_DIR" -type f 2>/dev/null | \
-  head -3 | xargs grep -li "guaranteed results\|resultados garantizados\|transformación\|revolutionary\|disruptivo" 2>/dev/null | wc -l || echo "0")
+  xargs grep -li "guaranteed results\|resultados garantizados\|transformación\|revolutionary\|disruptivo" 2>/dev/null | wc -l || echo "0")
 
 # ─── 4. Check white-label files for MetodologIA references ───────────────────
 WHITELABEL_FILES=$(find "$OUTPUTS_DIR" -name "propuesta_*whitelabel*" -type f 2>/dev/null | wc -l)

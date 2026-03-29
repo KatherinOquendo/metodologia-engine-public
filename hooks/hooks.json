@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'bash \"$PLUGIN_DIR/scripts/session-init.sh\" \"$PWD\"' 2>/dev/null || true"
+            "command": "bash -c 'G=\"$1/discovery/active-plugin\";M=\"metodologia-engine\";[ -f \"$G\" ]&&[ \"$(cat \"$G\" 2>/dev/null)\" != \"$M\" ]&&exit 0;mkdir -p \"$1/discovery\"&&echo \"$M\">\"$G\";bash \"$2/scripts/session-init.sh\" \"$1\"' _ \"$PWD\" \"$PLUGIN_DIR\" 2>/dev/null || true"
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'bash \"$PLUGIN_DIR/scripts/post-write-qa.sh\" \"$PWD\"' 2>/dev/null || true"
+            "command": "bash -c 'G=\"$1/discovery/active-plugin\";M=\"metodologia-engine\";[ -f \"$G\" ]&&[ \"$(cat \"$G\" 2>/dev/null)\" != \"$M\" ]&&exit 0;bash \"$2/scripts/post-write-qa.sh\" \"$1\"' _ \"$PWD\" \"$PLUGIN_DIR\" 2>/dev/null || true"
           }
         ],
         "matcher": "Write|Edit"

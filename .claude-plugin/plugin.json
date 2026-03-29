@@ -7,6 +7,7 @@
     "url": "https://metodologia.info"
   },
   "homepage": "https://metodologia.info",
+  "repository": "https://github.com/KatherinOquendo/metodologia-engine",
   "license": "MIT",
   "keywords": [
     "metodologia", "proposals", "commercial", "bilingual", "brand-resolver",

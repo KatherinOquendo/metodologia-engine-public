@@ -15,7 +15,6 @@ const path = require('path');
 const RED_LIST = [
   'hack', 'truco', 'trick', 'secreto', 'secret',
   'resultados instantáneos', 'instant results',
-  'arquitecto', 'architect', 'arquitectura', 'architecture',
   'transformación', 'transformation',
   'revolucionario', 'revolutionary', 'disruptivo', 'disruptive',
   'único en el mercado', 'unique in the market',
@@ -25,8 +24,8 @@ const RED_LIST = [
   'sin riesgo', 'zero risk',
 ];
 
-const EXACT_GUARANTEE_ES = 'Devolución del 100% si el servicio no cumple expectativas antes de completar las primeras 4 horas. Única condición: 1 hora de retroalimentación estructurada.';
-const EXACT_GUARANTEE_EN_PATTERN = /100% refund.*before completing.*first 4 hours.*1 hour.*structured feedback/i;
+const EXACT_GUARANTEE_ES = '100% de devolución si solicitas el reembolso antes de completar la primera sesión de 4h, con una sesión de retroalimentación estructurada de 1h.';
+const EXACT_GUARANTEE_EN_PATTERN = /100% refund if requested before completing the first 4.hour session.*1.hour structured feedback/i;
 const EXACT_CREDIT_ES_PATTERN = /100%.*6 meses.*acumulable.*intransferible|100%.*6 months.*cumulative.*non-transferable/i;
 
 // [POR CONFIRMAR] credit chain slugs — these should never appear as confirmed

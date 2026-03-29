@@ -43,7 +43,7 @@ services:
     certification: attendance   # D+2
     guarantee: "100% refund before completing first 4h (with 1h structured feedback)"
     canonical_file: "workshop-de-ocupado-a-productivo/canonico.md"
-    status: pilot
+    status: canonico-ok
     what_it_is_not:
       - deep system building (that is Bootcamp)
       - strategic consulting

@@ -64,8 +64,14 @@ function normalize(name) {
     .toLowerCase();
 
   // Step 2: punctuation → hyphen, collapse, strip edges
+  // Pre-process: remove abbreviation dots (S.A.S. → SAS, U.S.A. → USA)
+  //   Pattern: letter immediately followed by dot + letter, OR letter + dot at word boundary
+  slug = slug.replace(/([a-z])\.(?=[a-z])/g, '$1');  // S.A.S → SAS mid-word
+  slug = slug.replace(/([a-z])\.(?=\s|$|[^a-z])/g, '$1'); // trailing dot on abbrev: S.A.S. end
+  // Pre-process: remove apostrophes (O'Brien → OBrien, not O-Brien)
+  slug = slug.replace(/'/g, '');
   slug = slug
-    .replace(/[&+/.,'\s]+/g, '-')   // special chars + whitespace → hyphen
+    .replace(/[&+/.,\s]+/g, '-')    // special chars + whitespace → hyphen (apostrophe already removed)
     .replace(/-{2,}/g, '-')          // collapse consecutive hyphens
     .replace(/^-+|-+$/g, '');        // strip leading/trailing hyphens
 

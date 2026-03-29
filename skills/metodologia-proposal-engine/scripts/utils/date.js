@@ -36,7 +36,8 @@ const MONTHS_EN = [
  * @returns {Date}
  */
 function parseDate(input) {
-  if (input instanceof Date) return input;
+  // Always return a COPY — callers like calcExpiry mutate the date object via setDate()
+  if (input instanceof Date) return new Date(input.getTime());
   if (typeof input === 'string') {
     // "YYYY-MM-DD" → local midnight (avoids UTC day shift)
     const [y, m, d] = input.split('-').map(Number);

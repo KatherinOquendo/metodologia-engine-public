@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="{{lang}}" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} — {{brand.logo.primary_name}}</title>
+  {{#if brand.show_metodologia}}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  {{/if}}
+  <style>
+    :root {
+      --primary: {{brand.colors.primary}};
+      --accent: {{brand.colors.accent}};
+      --secondary: {{brand.colors.secondary}};
+      --dark: {{brand.colors.dark}};
+      --gray: {{brand.colors.gray}};
+      --white: {{brand.colors.white}};
+      --light: {{brand.colors.light}};
+      --font-display: {{brand.fonts.display}};
+      --font-body: {{brand.fonts.body}};
+      --font-note: {{brand.fonts.note}};
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); color: var(--dark); line-height: 1.6; background: var(--white); }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    .header { background: var(--primary); padding: 16px 0; }
+    .header .container { display: flex; justify-content: space-between; align-items: center; }
+    .header .brand-name { color: var(--white); font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+    .header .proposal-id { color: var(--accent); font-size: 12px; font-family: var(--font-note); }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, var(--secondary)) 100%); padding: 64px 0 48px; color: var(--white); }
+    .hero h1 { font-family: var(--font-display); font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+    .hero .hook { font-size: 18px; opacity: 0.9; max-width: 700px; }
+
+    /* Sections */
+    .section { padding: 48px 0; }
+    .section:nth-child(even) { background: var(--light); }
+    .section-tag { display: inline-block; font-family: var(--font-note); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--secondary); margin-bottom: 8px; }
+    .section h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--primary); margin-bottom: 24px; border-bottom: 3px solid var(--accent); padding-bottom: 8px; display: inline-block; }
+    .section p { margin-bottom: 16px; max-width: 750px; }
+
+    /* Scope list */
+    .scope-list { list-style: none; padding: 0; }
+    .scope-list li { padding: 8px 0 8px 24px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .scope-list li::before { content: ""; position: absolute; left: 0; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .exclusions { color: var(--gray); font-style: italic; margin-top: 16px; }
+
+    /* Plan timeline */
+    .plan-item { display: flex; gap: 24px; padding: 16px 0; border-left: 3px solid var(--accent); margin-left: 16px; padding-left: 24px; }
+    .plan-item .phase-name { font-weight: 600; min-width: 200px; }
+    .plan-item .phase-duration { color: var(--secondary); font-size: 14px; }
+    .plan-item .phase-milestone { color: var(--gray); font-size: 14px; }
+
+    /* Investment table */
+    .investment-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .investment-table th { background: var(--primary); color: var(--white); padding: 12px 16px; text-align: left; font-family: var(--font-display); font-size: 14px; }
+    .investment-table td { padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .investment-table tr:nth-child(even) td { background: var(--light); }
+    .investment-table .total-row { background: var(--accent) !important; font-weight: 700; }
+    .investment-table .total-row td { color: var(--primary); border: none; }
+    .price-note { font-size: 13px; color: var(--gray); margin-top: 8px; }
+
+    /* Why section */
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 16px; }
+    .why-card { padding: 24px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: var(--white); }
+    .why-card p { font-size: 14px; color: var(--dark); }
+
+    /* CTA */
+    .cta-section { text-align: center; padding: 64px 0; }
+    .cta-button { display: inline-block; background: var(--accent); color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 18px; padding: 16px 48px; border-radius: 8px; text-decoration: none; transition: opacity 0.2s; }
+    .cta-button:hover { opacity: 0.85; }
+    .cta-date { margin-top: 12px; color: var(--gray); font-size: 14px; }
+
+    /* Footer */
+    .footer { background: var(--primary); padding: 24px 0; color: var(--white); font-size: 12px; }
+    .footer .container { display: flex; justify-content: space-between; opacity: 0.8; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 24px; }
+      .hero { padding: 40px 0 32px; }
+      .section { padding: 32px 0; }
+      .why-grid { grid-template-columns: 1fr; }
+      .plan-item { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <span class="brand-name">{{brand.logo.primary_name}}</span>
+      <span class="proposal-id">{{id}}</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>{{title}}</h1>
+      <p class="hook">{{hook}}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.challenge}}</span>
+      <h2>{{labels.challenge}}</h2>
+      <p>{{problem}}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.solution}}</span>
+      <h2>{{labels.solution}}</h2>
+      <p>{{solution}}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.scope}}</span>
+      <h2>{{labels.scope}}</h2>
+      <ul class="scope-list">
+        {{#each scope}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{#if exclusions}}
+      <p class="exclusions">{{labels.exclusions}}: {{exclusions}}</p>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.plan}}</span>
+      <h2>{{labels.plan}}</h2>
+      {{#each plan}}
+      <div class="plan-item">
+        <span class="phase-name">{{this.name}}</span>
+        <span class="phase-duration">{{this.duration}}</span>
+        <span class="phase-milestone">{{this.milestone}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.investment}}</span>
+      <h2>{{labels.investment}}</h2>
+      <table class="investment-table">
+        <thead>
+          <tr>
+            <th>{{labels.service}}</th>
+            <th>{{labels.description}}</th>
+            <th>{{labels.price}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each services}}
+          <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.price_formatted}}</td>
+          </tr>
+          {{/each}}
+          <tr class="total-row">
+            <td colspan="2">{{labels.total}}</td>
+            <td>{{total_formatted}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="price-note">{{payment_terms}}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag">{{labels.why}}</span>
+      <h2>{{labels.why}}</h2>
+      <div class="why-grid">
+        {{#each why}}
+        <div class="why-card">
+          <p>{{this}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <a href="mailto:{{provider_email}}?subject={{title}}" class="cta-button">{{cta_text}}</a>
+      {{#if cta_date}}
+      <p class="cta-date">{{cta_date}}</p>
+      {{/if}}
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <span>{{brand.logo.primary_name}} &mdash; {{id}}</span>
+      <span>{{date}} &bull; {{labels.valid}} {{valid_days}} {{labels.days}}</span>
+    </div>
+  </footer>
+
+</body>
+</html>

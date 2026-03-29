@@ -1,0 +1,295 @@
+# MetodologIA Service Catalog — v1.1
+# SSOT for service definitions. Edit this file, not the SKILL.md.
+# After editing: run hooks/on-catalog-update.md cascade protocol.
+# Canonical .md files override this file if they conflict.
+
+services:
+
+  # ─── TIER 1: Canonical .md exists ──────────────────────────────────────────
+
+  - slug: workshop-de-ocupado-a-productivo
+    canonical_name: "De Ocupado a Productivo"
+    type: Workshop
+    brand: MetodologIA
+    tier: 1
+    category: entry
+    duration_hours: 3
+    participants:
+      min: 1
+      max_single_facilitator: 20
+      recommended: 10-20
+    modalities: [virtual-sync, in-person-on-request]
+    pricing:
+      b2c_cop: 200000
+      b2b_cop: 3000000
+      b2b_note: "up to 20 participants"
+      vat_b2c: included
+      vat_b2b: discriminated
+    credits:
+      outgoing:
+        - to: bootcamp-trabajar-amplificado
+          pct: 100
+          window_months: 6
+          cumulative: true
+          transferable: false
+          status: CONFIRMED
+    segments: [b2b, b2c, b2b2b-cobrand, b2b2b-whitelabel]
+    deliverables:
+      - labeled agenda
+      - critical leak identified
+      - focus blocks
+      - meta-prompt
+      - minimum adoption routine
+    certification: attendance   # D+2
+    guarantee: "100% refund before completing first 4h (with 1h structured feedback)"
+    canonical_file: "workshop-de-ocupado-a-productivo/canonico.md"
+    status: pilot
+    what_it_is_not:
+      - deep system building (that is Bootcamp)
+      - strategic consulting
+
+  - slug: bootcamp-trabajar-amplificado
+    canonical_name: "Bootcamp Trabajar Amplificado"
+    type: Bootcamp
+    brand: MetodologIA
+    tier: 1
+    category: deepening
+    duration_hours: 20   # 18h core + 2h context/onboarding
+    participants:
+      min: 1
+      max_single_facilitator: 20
+      recommended: 10-20
+      cofacilitation_max: 40
+    modalities: [virtual-sync, in-person-on-request]
+    pricing:
+      b2c_cop: 800000
+      b2b_cop: 12000000
+      b2b_cofacilitation_cop: 18000000
+      b2b_double_execution_cop: 21600000
+      b2b_note: "up to 20 participants + IVA"
+      lms_continuity_cop_monthly: 20000
+      rescheduling_first: 0
+      rescheduling_subsequent_cop: 200000
+      vat_b2c: included
+      vat_b2b: discriminated
+    credits:
+      incoming:
+        - from: workshop-de-ocupado-a-productivo
+          pct: 100
+          window_months: 6
+          cumulative: true
+          transferable: false
+          status: CONFIRMED
+      outgoing:
+        - to: consultive-workshop-estrategia
+          status: POR_CONFIRMAR   # PC-01 — JM, 2026-04-15
+        - to: programa-digital-champions
+          status: POR_CONFIRMAR   # PC-01
+        - to: programa-empoderamiento
+          status: POR_CONFIRMAR   # PC-01
+    segments: [b2b, b2c, b2b2b-cobrand, b2b2b-whitelabel]
+    deliverables:
+      - HTML interactive playbook (basic/intermediate/advanced)
+      - library of 100+ prompts (HTML + JSON)
+      - editable templates per module
+      - final project with rubric evaluation
+      - session recordings + memories (30 days)
+    certification:
+      - attendance   # all participants, D+2
+      - competence   # requires final project approved by rubric: clarity, applicability, data safety, reproducibility
+    lms:
+      included_period: "during training + 1 month post-close"
+      continuity: "optional — COP 20,000/month"
+    guarantee: "100% refund before completing first 4h (with 1h structured feedback)"
+    ai_engine: "agnostic — default: ChatGPT (free account sufficient). Alternatives: Gemini, Copilot, IT-approved engine"
+    repository_access: "30 days post-close — backup is client's responsibility"
+    canonical_file: "bootcamp-trabajar-amplificado/canonico.md"
+    status: canonico-ok
+    what_it_is_not:
+      - production-ready automations (delivers prototypes/blueprints)
+      - strategic consulting (that is EstrategIA)
+      - passive learning course (requires practice + final project)
+      - replaces habit change (method installs capability; adoption depends on consistency)
+
+  - slug: consultive-workshop-estrategia
+    canonical_name: "EstrategIA"
+    variants: [Empresarial, Personal]
+    type: ConsultiveWorkshop
+    brand: MetodologIA
+    tier: 1
+    category: premium
+    duration_hours: 18   # 9 sessions × 2h
+    pricing:
+      b2c_cop: 3400000   # Personal variant, 1-3 persons
+      b2b_cop: 18000000  # Empresarial variant, up to 10 participants — CANONICAL OVERRIDES data_reference (was 15M)
+      vat_b2b: discriminated
+    credits:
+      outgoing:
+        - to: programa-digital-champions
+          status: POR_CONFIRMAR
+        - to: programa-empoderamiento
+          status: POR_CONFIRMAR
+    segments:
+      b2b: [Empresarial]
+      b2c: [Personal]
+      b2b2b_cobrand: [Empresarial]
+      b2b2b_whitelabel: [Empresarial]
+    canonical_file: "consultive-workshop-estrategia/canonico.md"
+    status: pending
+
+  - slug: programa-digital-champions
+    canonical_name: "Programa Digital Champions"
+    type: Program
+    brand: MetodologIA
+    tier: 1
+    category: transformation
+    duration_weeks: 16
+    duration_hours: 48
+    pricing:
+      b2b_cop: 35000000   # cohort 5-10
+      b2c_cop: 18000000   # multi-company cohort only
+      note: "B2C only in open multi-company cohort model"
+    segments: [b2b, b2c-open-cohort, b2b2b-cobrand, b2b2b-whitelabel]
+    status: pending
+
+  - slug: programa-empoderamiento
+    canonical_name: "Programa Empoderamiento"
+    type: Program
+    brand: MetodologIA
+    tier: 1
+    category: transformation
+    duration_weeks: 16
+    duration_hours: 48
+    pricing:
+      b2c_cop: 18000000
+      b2b_cop: null          # POR CONFIRMAR PC-13 — JM, 2026-Q2
+    credits:
+      incoming:
+        - from: consultive-workshop-estrategia   # Personal variant
+          pct: 100
+          window_months: 6
+          status: CONFIRMED
+    segments: [b2c]   # B2B: POR CONFIRMAR PC-13
+    status: pending
+
+  # ─── TIER 2: HTML only (medium confidence — validate with facilitators) ─────
+
+  - slug: bootcamp-gerencia-proyectos
+    canonical_name: "Bootcamp Gerencia de Proyectos"
+    type: Bootcamp
+    brand: MetodologIA
+    tier: 2
+    pricing:
+      b2b_cop: 12000000
+      usd_rate_note: "POR CONFIRMAR PC-05 — unified rate not defined"
+    segments: [b2b, b2b2b-cobrand, b2b2b-whitelabel]
+    source_file: "MetodologIA-B2B/Outputs/b2b copy/bootcamp-gerencia-proyectos.html"
+    status: pending
+
+  - slug: bootcamp-ofimatica-google
+    canonical_name: "Bootcamp Ofimática Google"
+    type: Bootcamp
+    brand: MetodologIA
+    tier: 2
+    pricing:
+      b2b_cop: 12000000
+    segments: [b2b, b2b2b-cobrand, b2b2b-whitelabel]
+    status: pending
+
+  - slug: bootcamp-ofimatica-microsoft
+    canonical_name: "Bootcamp Ofimática Microsoft"
+    type: Bootcamp
+    brand: MetodologIA
+    tier: 2
+    pricing:
+      b2b_cop: 12000000
+    segments: [b2b, b2b2b-cobrand, b2b2b-whitelabel]
+    status: pending
+
+  - slug: bootcamp-ventas-amplificadas
+    canonical_name: "Bootcamp Ventas Amplificadas"
+    type: Bootcamp
+    brand: MetodologIA
+    tier: 2
+    pricing:
+      b2b_cop: 12000000
+    segments: [b2b, b2b2b-cobrand, b2b2b-whitelabel]
+    status: pending
+
+  # ─── TIER 3: IAC — white-label channel. Not a strategic partner. ───────────
+  # IAC services use MetodologIA methodology under IAC branding.
+  # brand_mode defaults to whitelabel for this channel.
+  # All B2C prices: POR CONFIRMAR (PC-02, PC-07-PC-09)
+  # Credits: negotiated per master contract — not automatic
+
+  - slug: iac/bootcamp-ia-comercial
+    canonical_name: "Bootcamp IA Comercial"
+    type: Bootcamp
+    brand: IAC          # white-label channel
+    tier: 3
+    pricing:
+      b2b_cop: see_master_contract
+      b2c_cop: null     # POR CONFIRMAR PC-07
+    default_brand_mode: whitelabel
+    segments: [b2b, b2b2b-cobrand, b2b2b-whitelabel]
+    status: pending
+
+  - slug: iac/bootcamp-introduccion-ia-generativa
+    canonical_name: "Bootcamp Introducción IA Generativa"
+    type: Bootcamp
+    brand: IAC
+    tier: 3
+    pricing:
+      b2c_cop: null   # POR CONFIRMAR PC-10 (confirm no B2C model)
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/programa-competencias-digitales
+    canonical_name: "Programa Competencias Digitales Universales"
+    type: Program
+    brand: IAC
+    tier: 3
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/programa-liderazgo-digital
+    canonical_name: "Programa Liderazgo Digital"
+    type: Program
+    brand: IAC
+    tier: 3
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/programa-transformacion-digital
+    canonical_name: "Programa Transformación Digital"
+    type: Program
+    brand: IAC
+    tier: 3
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/bootcamp-amplificacion-ia
+    canonical_name: "Bootcamp Amplificación IA"
+    type: Bootcamp
+    brand: IAC
+    tier: 3
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/bootcamp-ofimatica-ia-google
+    canonical_name: "Bootcamp Ofimática IA Google"
+    type: Bootcamp
+    brand: IAC
+    tier: 3
+    base_service: bootcamp-ofimatica-google   # inherits modules
+    default_brand_mode: whitelabel
+    status: pending
+
+  - slug: iac/bootcamp-ofimatica-ia-microsoft
+    canonical_name: "Bootcamp Ofimática IA Microsoft"
+    type: Bootcamp
+    brand: IAC
+    tier: 3
+    base_service: bootcamp-ofimatica-microsoft
+    default_brand_mode: whitelabel
+    status: pending

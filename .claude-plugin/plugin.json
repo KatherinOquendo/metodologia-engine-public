@@ -1,0 +1,19 @@
+{
+  "name": "metodologia-engine",
+  "version": "1.0.0",
+  "description": "MetodologIA Proposal Engine — Agentic ecosystem for bilingual (ES+EN) commercial proposal generation. 7 specialized subagents collaborate through a conductor to handle any-quality input, verify legal compliance, resolve branding at runtime (own|cobrand|whitelabel), and produce 10 proposal files (HTML·DOCX·XLSX·PPTX·MD × ES+EN). Activate with /propuesta, /cotizacion, /catalogo, /verificar, or /actualizar-catalogo.",
+  "author": {
+    "name": "Javier Montaño · MetodologIA",
+    "url": "https://metodologia.info"
+  },
+  "homepage": "https://metodologia.info",
+  "license": "MIT",
+  "keywords": [
+    "metodologia", "proposals", "commercial", "bilingual", "brand-resolver",
+    "legal-verification", "minto-complete", "whitelabel", "cobrand",
+    "agentic", "multi-agent", "conductor-pattern",
+    "b2b", "b2c", "catalog", "yaml-ssot",
+    "adversarial-input", "worst-case-recovery", "smart-defaults",
+    "html", "docx", "pptx", "xlsx", "markdown"
+  ]
+}

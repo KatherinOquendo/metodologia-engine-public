@@ -1,0 +1,18 @@
+{
+  "name": "metodologia-proposal-engine",
+  "version": "4.0.0",
+  "description": "MetodologIA commercial proposal engine — bilingual (ES+EN), multi-format, brand-resolved.",
+  "private": true,
+  "dependencies": {
+    "docx": "^9.6.1",
+    "handlebars": "^4.7.8",
+    "js-yaml": "^4.1.0",
+    "pptxgenjs": "^4.0.1"
+  },
+  "scripts": {
+    "test:catalog": "node scripts/catalog-query.js --list b2b",
+    "test:brand": "node scripts/brand-resolver.js '{\"brand_mode\":\"own\"}'",
+    "test:legal": "node scripts/verify-legal.js --content \"test content\" --json",
+    "test:pending": "node scripts/catalog-query.js --pending"
+  }
+}

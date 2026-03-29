@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'bash \"$PLUGIN_DIR/scripts/session-init.sh\" \"$PWD\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'bash \"$PLUGIN_DIR/scripts/post-write-qa.sh\" \"$PWD\"' 2>/dev/null || true"
+          }
+        ],
+        "matcher": "Write|Edit"
+      }
+    ]
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "skill_name": "metodologia-proposal-engine",
+  "version": "4.0",
+  "evals": [
+    {
+      "id": 1,
+      "name": "standard-b2b-bootcamp-logistics",
+      "description": "Core happy path: B2B proposal for an existing catalog service",
+      "prompt": "Build a proposal for Transportes del Pacífico — 20-person logistics ops team, they want to standardize how they use AI for reports and route analysis. Budget around COP 12M, want to start in May.",
+      "expected_output": "10 output files. B2B executive + commercial versions. Price COP 12,000,000 + IVA. Brand: own. All verification checks pass.",
+      "assertions": [
+        { "id": "a1", "text": "Output contains exactly 10 files (5 ES + 5 EN formats or 9+verification)" },
+        { "id": "a2", "text": "B2B price stated as COP 12,000,000 + IVA" },
+        { "id": "a3", "text": "Guarantee clause uses exact wording (4-hour limit + feedback condition)" },
+        { "id": "a4", "text": "Red list produces zero matches across all output files" },
+        { "id": "a5", "text": "Verification report status is APPROVED or APPROVED_WITH_WARNINGS" },
+        { "id": "a6", "text": "Both ES and EN files are present and non-empty" },
+        { "id": "a7", "text": "Minto structure present: conclusion + supports + CTA" },
+        { "id": "a8", "text": "No MetodologIA references missing (own brand mode)" }
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "b2c-individual-freelancer",
+      "description": "B2C proposal for individual professional",
+      "prompt": "Proposal for María Camila Restrepo, independent HR consultant, wants to stop starting from zero with every client proposal, budget COP 800K",
+      "expected_output": "B2C versions. Price COP 800,000. Second person tone. Credit mention: 100% from Workshop if applicable.",
+      "assertions": [
+        { "id": "a1", "text": "B2C price stated as COP 800,000" },
+        { "id": "a2", "text": "Uses second person ('tú'/'you') throughout commercial version" },
+        { "id": "a3", "text": "IVA not discriminated in B2C version" },
+        { "id": "a4", "text": "Verification report status is not BLOCKED" },
+        { "id": "a5", "text": "ES and EN versions both present" }
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "innovation-mode-school-teachers",
+      "description": "Innovation Mode Type C: no exact catalog match",
+      "prompt": "A private school wants a program for 40 teachers to learn AI basics, 4 weeks, academic context, budget COP 8M",
+      "expected_output": "INNOVATION MODE activated. Innovation disclaimer present. [POR CONFIRMAR] on custom pricing. Base service identified. No exact canonical match stated as if it exists.",
+      "assertions": [
+        { "id": "a1", "text": "INNOVATION MODE declared in verification report" },
+        { "id": "a2", "text": "Disclaimer about custom service design present in output" },
+        { "id": "a3", "text": "Custom price marked as [POR CONFIRMAR] or 'indicative'" },
+        { "id": "a4", "text": "Base canonical service identified and referenced" },
+        { "id": "a5", "text": "What is standard vs adapted vs new is explicitly documented" }
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "legal-blocker-detection",
+      "description": "Verification must detect and fix legal issues",
+      "prompt": "Create a proposal that guarantees 50% time savings, uses the word 'transformación', and offers white-label immediately without a master contract",
+      "expected_output": "Verification report BLOCKED or corrections applied. 'transformación' replaced with '(R)Evolución'. 50% guarantee wrapped as 'indicative target'. White-label note added about master contract requirement.",
+      "assertions": [
+        { "id": "a1", "text": "Word 'transformación' not present in final output OR replaced with (R)Evolución" },
+        { "id": "a2", "text": "50% result claim wrapped with 'indicative target' / 'meta orientativa'" },
+        { "id": "a3", "text": "White-label contract requirement noted (W1 warning present)" },
+        { "id": "a4", "text": "Verification report documents corrections applied" }
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "whitelabel-iac-zero-visible",
+      "description": "White-label output: MetodologIA completely invisible",
+      "prompt": "Proposal for IAC channel, white-label, partner is Corporación TechLearn, their primary color is #005A8E, for their enterprise AI bootcamp offering",
+      "expected_output": "Zero MetodologIA references. Partner logo placeholder. Partner colors applied. All quality standards maintained.",
+      "assertions": [
+        { "id": "a1", "text": "Zero occurrences of 'MetodologIA' or 'metodología' in any output file" },
+        { "id": "a2", "text": "Partner name 'TechLearn' or 'Corporación TechLearn' appears in branding positions" },
+        { "id": "a3", "text": "Primary color #005A8E or equivalent applied to header/primary elements" },
+        { "id": "a4", "text": "Verification report brand_mode = whitelabel" },
+        { "id": "a5", "text": "Methodology content and structure intact (same sections as own brand version)" }
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "cobrand-partner-accent-only",
+      "description": "Co-brand: only gold token overridden, design system unchanged",
+      "prompt": "Co-brand proposal with Bancolombia (partner primary #FFD100), for their employees' AI training program",
+      "expected_output": "Both logos. Navy unchanged. Only accent/gold color overridden to #FFD100. MetodologIA design system intact.",
+      "assertions": [
+        { "id": "a1", "text": "Both MetodologIA and Bancolombia brand references present" },
+        { "id": "a2", "text": "Navy color #122562 present (not overridden)" },
+        { "id": "a3", "text": "Verification report brand_mode = cobrand" },
+        { "id": "a4", "text": "W1 warning present (master contract required)" }
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "catalog-edit-add-service",
+      "description": "CATALOG EDIT MODE: add a new service",
+      "prompt": "Add a new service to the catalog: Workshop 'Prompting para Juristas', 3h, B2B only, COP 3,500,000, for legal teams",
+      "expected_output": "CATALOG EDIT MODE. Service added to services.yaml with correct schema. CHANGELOG.md updated. Cascade check run.",
+      "assertions": [
+        { "id": "a1", "text": "New service entry present in catalog/services.yaml" },
+        { "id": "a2", "text": "Slug follows kebab-case convention" },
+        { "id": "a3", "text": "what_it_is_not list present (≥1 item)" },
+        { "id": "a4", "text": "CHANGELOG.md updated with the addition" },
+        { "id": "a5", "text": "Status set to 'pending'" }
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "procurement-version-full-spec",
+      "description": "Procurement version with complete commercial conditions",
+      "prompt": "Create a procurement/compras version for a large corporation's procurement team, service: Bootcamp B2B",
+      "expected_output": "Procurement document with: UNSPSC code placeholder, RACI, SLA exact values, IVA discriminated, cancellation + force majeure conditions, no marketing language.",
+      "assertions": [
+        { "id": "a1", "text": "IVA discriminated: '+ IVA' present in price" },
+        { "id": "a2", "text": "SLA values present: D+1 email, ≤2h WhatsApp" },
+        { "id": "a3", "text": "No marketing adjectives (innovador, revolucionario, único)" },
+        { "id": "a4", "text": "Cancellation or force majeure conditions present" },
+        { "id": "a5", "text": "Acceptance criteria / DoD section present" }
+      ],
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "novice-user-zero-jargon",
+      "description": "Novice user version: absolutely no technical terms",
+      "prompt": "Create a novice user version for someone who barely knows what AI is",
+      "expected_output": "Zero prohibited terms. Sentences ≤15 words. Substitutions applied (meta-prompt → instrucciones, playbook → guía paso a paso). Price without IVA breakdown.",
+      "assertions": [
+        { "id": "a1", "text": "None of the prohibited terms present: ROI, OKR, KPI, SLA, framework, meta-prompt, playbook, facilitador, artefacto" },
+        { "id": "a2", "text": "Average sentence length ≤15 words (spot check 5 sentences)" },
+        { "id": "a3", "text": "Price shown without IVA discrimination" },
+        { "id": "a4", "text": "CTA is one concrete step" }
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "english-primary-language",
+      "description": "User writes in English — output should default to bilingual but EN should be primary tone",
+      "prompt": "Build a proposal for TechNova Inc, 15-person product team in Bogotá, they want to improve how they use AI for product documentation, budget around USD 3,000",
+      "expected_output": "Bilingual output. EN version uses correct American English professional tone. USD noted as indicative rate.",
+      "assertions": [
+        { "id": "a1", "text": "EN version present and in American English" },
+        { "id": "a2", "text": "USD amount accompanied by '(indicative rate)' note" },
+        { "id": "a3", "text": "ES version also present" },
+        { "id": "a4", "text": "COP price as primary, USD as reference" }
+      ],
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+# Commercial Conditions — Hot-Swap Configuration
+# Change prices, policies, SLAs, and credit rules here without touching SKILL.md.
+# Version: 1.0 | 2026-03-29 | Owner: JM
+# After editing: run cascade protocol in hooks/on-catalog-update.md
+
+meta:
+  version: "1.0"
+  effective_date: "2026-03-29"
+  next_review: "2026-06-29"
+  currency_primary: COP
+  currency_secondary: USD
+  usd_rate_note: "POR CONFIRMAR PC-05 — no unified rate defined; use 'indicative' in all quotes"
+  vat_rate: 0.19   # Colombia IVA
+  pricing_valid_until: "next canonical version"
+
+support_sla:
+  email_business_days: 1       # D+1
+  whatsapp_hours: 2            # ≤2h, Mon-Fri 9-16h COT
+  timezone: "America/Bogota"   # COT = UTC-5
+
+delivery_sla:
+  repository_access_days: 30
+  certificate_attendance_days: 2    # D+2
+  certificate_competence_days: 5    # D+5 post-capstone/final project
+
+guarantees:
+  standard:
+    description: "100% refund if service does not meet expectations before completing the first 4 hours"
+    condition: "1 hour of structured feedback required"
+    exact_clause_es: "Devolución del 100% si el servicio no cumple expectativas antes de completar las primeras 4 horas. Única condición: 1 hora de retroalimentación estructurada."
+    exact_clause_en: "100% refund if the service does not meet expectations before completing the first 4 hours. One condition: 1 hour of structured feedback."
+    # RULE: always use these exact clauses. Never paraphrase.
+
+credit_chains:
+  confirmed:
+    - id: CC-01
+      from: workshop-de-ocupado-a-productivo
+      to: bootcamp-trabajar-amplificado
+      pct: 100
+      window_months: 6
+      cumulative: true
+      transferable: false
+      applied_to: first_installment
+      max_discount: service_price   # no credit balance generated
+    - id: CC-02
+      from: consultive-workshop-estrategia  # Personal variant
+      to: programa-empoderamiento
+      pct: 100
+      window_months: 6
+      cumulative: true
+      transferable: false
+  pending:
+    - id: PC-01
+      from: bootcamp-trabajar-amplificado
+      to: [consultive-workshop-estrategia, programa-digital-champions, programa-empoderamiento]
+      status: POR_CONFIRMAR
+      owner: JM
+      deadline: "2026-04-15"
+      impact: "Cannot offer continuity credit from Bootcamp. Blocks conversion funnel."
+    - id: PC-03
+      from: [bootcamp-gerencia-proyectos, bootcamp-ofimatica-google, bootcamp-ofimatica-microsoft, bootcamp-ventas-amplificadas]
+      to: any
+      status: POR_CONFIRMAR
+      owner: JM
+      deadline: "2026-04-15"
+    - id: PC-06-iac
+      from: any
+      to: iac_services
+      note: "Negotiated per master contract — never automatic"
+
+payment_terms:
+  b2c:
+    installments: 3
+    first_installment_when: before_start
+    default_gateway: online_payment
+  b2b:
+    installments: 3
+    first_installment_when: before_start   # reserves date, activates prep
+    second_installment_when: before_last_day_month_1
+    third_installment_when: before_last_day_month_2
+    po_accepted: true
+    net_terms: [30, 60]
+  b2b2b:
+    cobrand: "negotiated in master contract — typically NET-30/60"
+    whitelabel: "negotiated per license model (per-execution / annual / volume)"
+
+rescheduling:
+  first_rescheduling_cop: 0
+  first_rescheduling_conditions: "justified cause, ≥72h notice"
+  subsequent_rescheduling_cop: 200000
+
+b2b2b_requirements:
+  cobrand:
+    lead_time_days: 35
+    prerequisites:
+      - signed_master_contract
+      - signed_brand_use_agreement
+      - partner_brand_kit    # logos (vector), colors, typography, tone
+    approval_time_materials_days: 3   # partner reviews co-branded materials
+    minimum_executions_6mo: 2
+    revenue_models: [fixed_per_execution, revenue_share, prepaid_volume]
+    revenue_share_metodologia_pct: "60-70"
+    revenue_share_partner_pct: "30-40"
+  whitelabel:
+    lead_time_option_a_days: 35     # MetodologIA facilitates, invisible
+    lead_time_option_b_days: "60-75"   # partner facilitates (requires training)
+    setup_fee_cop_range: [4000000, 7000000]   # one-time
+    facilitator_training_hours: 26
+    facilitator_training_fee_cop_range: [8000000, 12000000]   # per facilitator
+    license_models:
+      - per_execution:
+          option_a_range_cop: [5000000, 8000000]
+          option_b_range_cop: [3000000, 5000000]
+      - annual:
+          range_cop: [30000000, 45000000]
+          includes_executions: "6-8"
+      - volume_tiered:
+          bands: ["1-3: base", "4-6: -10%", "7-10: -20%", "11+: -25%"]
+    quality_thresholds:
+      nps_min: 7.5
+      completion_rate_min_pct: 65
+    content_update_adoption_days: 45   # max time to adopt new canonical version
+    sublicensing: not_permitted_without_explicit_authorization
+
+operational_rules:
+  canonical_precedence: "canonical .md > catalog/services.yaml > any derived file"
+  price_cascade_sla_hours: 48   # update all derived files within 48h of canonical price change
+  por_confirmar_rule: "never state as confirmed in any proposal"
+  usd_quote_rule: "always add '(indicative rate)' when converting COP to USD"
+  red_list:
+    - hack
+    - truco
+    - secreto
+    - "resultados instantáneos"
+    - "instant results"
+    - "arquitecto"
+    - "arquitectura"   # in methodological context
+    - "transformación"   # replace with "(R)Evolución" / "(R)Evolution"
+    - "transformation"
+    - "revolutionario"
+    - "revolutionary"
+    - "disruptivo"
+    - "disruptive"
+    - "único en el mercado"
+    - "unique in the market"
+    - "soluciones innovadoras"
+    - "innovative solutions"
+    - "resultados garantizados"
+    - "guaranteed results"

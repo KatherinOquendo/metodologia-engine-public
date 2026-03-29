@@ -1,0 +1,4 @@
+node_modules/
+skills/metodologia-proposal-engine/node_modules/
+*.proposal-state.json
+.proposal-state.json

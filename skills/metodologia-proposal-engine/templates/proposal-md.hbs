@@ -1,0 +1,85 @@
+---
+id: "{{id}}"
+date: "{{date}}"
+client: "{{client_company}}"
+provider: "{{brand.logo.primary_name}}"
+lang: "{{lang}}"
+version: "1.0"
+valid_days: {{valid_days}}
+service: "{{service_slug}}"
+segment: "{{segment}}"
+brand_mode: "{{brand.mode}}"
+---
+
+# {{title}}
+
+**{{hook}}**
+
+---
+
+## {{labels.challenge}}
+
+{{problem}}
+
+---
+
+## {{labels.solution}}
+
+{{solution}}
+
+---
+
+## {{labels.scope}}
+
+{{#each scope}}
+- {{this}}
+{{/each}}
+
+{{#if exclusions}}
+> **{{labels.exclusions}}:** {{exclusions}}
+{{/if}}
+
+---
+
+## {{labels.plan}}
+
+| {{labels.phase}} | {{labels.duration}} | {{labels.milestone}} |
+|---|---|---|
+{{#each plan}}
+| {{this.name}} | {{this.duration}} | {{this.milestone}} |
+{{/each}}
+
+---
+
+## {{labels.investment}}
+
+| {{labels.service}} | {{labels.description}} | {{labels.price}} |
+|---|---|---|
+{{#each services}}
+| {{this.name}} | {{this.description}} | {{this.price_formatted}} |
+{{/each}}
+| **{{labels.total}}** | | **{{total_formatted}}** |
+
+{{payment_terms}}
+
+---
+
+## {{labels.why}}
+
+{{#each why}}
+{{@index_plus_one}}. {{this}}
+{{/each}}
+
+---
+
+## {{labels.next_step}}
+
+**{{cta_text}}**
+
+{{#if cta_date}}
+{{cta_date}}
+{{/if}}
+
+---
+
+*{{brand.logo.primary_name}} — {{id}} — {{date}} — {{labels.valid}} {{valid_days}} {{labels.days}}*

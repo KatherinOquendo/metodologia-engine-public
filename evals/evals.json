@@ -1,0 +1,149 @@
+{
+  "plugin": "metodologia-engine",
+  "version": "1.0.0",
+  "description": "End-to-end eval suite for the MetodologIA Proposal Engine plugin. Tests the full 5-layer pipeline across key scenarios: standard B2B, adversarial input, legal blockers, branding modes, catalog management.",
+  "evals": [
+    {
+      "id": "E01",
+      "name": "standard-b2b-bootcamp-full-pipeline",
+      "command": "/propuesta",
+      "prompt": "Empresa logística en Bogotá, equipo de operaciones de 20 personas, quieren implementar IA en sus flujos diarios. Presupuesto aproximado 12 millones. Inicio en mayo.",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "service_slug equals bootcamp-trabajar-amplificado"},
+        {"id": "a2", "text": "price equals COP 12,000,000 + IVA discriminado"},
+        {"id": "a3", "text": "output contains both ES and EN versions"},
+        {"id": "a4", "text": "verification_status is APPROVED or APPROVED_WITH_WARNINGS"},
+        {"id": "a5", "text": "no red list words in any output"},
+        {"id": "a6", "text": "CTA includes verb + context + timeline"},
+        {"id": "a7", "text": "Minto structure present: conclusion + 3 supports + evidence"}
+      ]
+    },
+    {
+      "id": "E02",
+      "name": "adversarial-voice-note-input",
+      "command": "/propuesta",
+      "prompt": "este... o sea mi jefe me dijo que... bueno que necesitamos algo de IA para el equipo no sé bien qué pero algo como un taller o bootcamp no sé cuánto cuesta tampoco",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "input-interpreter runs and scores confidence < 60%"},
+        {"id": "a2", "text": "conductor asks exactly ONE clarifying question OR proceeds with smart defaults"},
+        {"id": "a3", "text": "ProposalData contains [ASSUMED] annotations"},
+        {"id": "a4", "text": "delivery summary lists assumptions made"},
+        {"id": "a5", "text": "output is complete (not blocked) despite low-quality input"}
+      ]
+    },
+    {
+      "id": "E03",
+      "name": "legal-blocker-guaranteed-results",
+      "command": "/verificar",
+      "prompt": "Our program guarantees 30% efficiency improvement and transforms your team. Revolutionary methodology, zero risk. Contact us for our best-in-class solution.",
+      "expected_agent": "legal-guardian",
+      "assertions": [
+        {"id": "a1", "text": "status is BLOCKED"},
+        {"id": "a2", "text": "L5 triggered: result % without 'Indicative target' wrapper"},
+        {"id": "a3", "text": "L7 triggered: red list words detected (guarantees, transforms, revolutionary, zero risk, best-in-class)"},
+        {"id": "a4", "text": "specific fix instructions provided for each blocker"},
+        {"id": "a5", "text": "auto-fix suggestions provided"}
+      ]
+    },
+    {
+      "id": "E04",
+      "name": "whitelabel-zero-metodologia-references",
+      "command": "/propuesta",
+      "prompt": "Propuesta para Empresa XYZ en modo white-label. Partner: TechCorp. No debe aparecer MetodologIA en ningún lado. Servicio: bootcamp IA para equipo de ventas, 15 personas.",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "brand_mode is whitelabel"},
+        {"id": "a2", "text": "show_metodologia is false in BrandConfig"},
+        {"id": "a3", "text": "HTML output contains zero occurrences of 'MetodologIA'"},
+        {"id": "a4", "text": "MD output contains zero occurrences of 'MetodologIA'"},
+        {"id": "a5", "text": "partner name TechCorp appears in header"}
+      ]
+    },
+    {
+      "id": "E05",
+      "name": "catalog-browse-tier1",
+      "command": "/catalogo",
+      "prompt": "tier:1",
+      "expected_agent": "catalog-curator",
+      "assertions": [
+        {"id": "a1", "text": "returns exactly 5 Tier 1 services"},
+        {"id": "a2", "text": "each service shows B2C COP price (or — if N/A)"},
+        {"id": "a3", "text": "each service shows B2B COP price"},
+        {"id": "a4", "text": "[POR CONFIRMAR] markers present on unconfirmed prices"},
+        {"id": "a5", "text": "no files generated (list mode only)"}
+      ]
+    },
+    {
+      "id": "E06",
+      "name": "quick-estimate-b2c-workshop",
+      "command": "/cotizacion",
+      "prompt": "workshop de productividad para una persona",
+      "expected_agent": "service-selector",
+      "assertions": [
+        {"id": "a1", "text": "service_slug equals workshop-de-ocupado-a-productivo"},
+        {"id": "a2", "text": "B2C price shown: COP 200,000 (IVA incluido)"},
+        {"id": "a3", "text": "credit toward Bootcamp TA mentioned: 100%, 6 months"},
+        {"id": "a4", "text": "no proposal files generated"},
+        {"id": "a5", "text": "tip to use /propuesta for full proposal shown"}
+      ]
+    },
+    {
+      "id": "E07",
+      "name": "innovation-mode-custom-service",
+      "command": "/propuesta",
+      "prompt": "Necesito un programa de 6 semanas para formar líderes en cultura de datos. Es para una empresa de retail con 50 directivos. No existe este programa en su catálogo.",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "mode is INNOVATION (no exact catalog match)"},
+        {"id": "a2", "text": "Innovation Mode disclaimer present in output"},
+        {"id": "a3", "text": "custom pricing marked [POR CONFIRMAR]"},
+        {"id": "a4", "text": "service composed from canonical building blocks (not invented from scratch)"},
+        {"id": "a5", "text": "verification passes despite [POR CONFIRMAR] items (APPROVED WITH WARNINGS acceptable)"}
+      ]
+    },
+    {
+      "id": "E08",
+      "name": "cobrand-partner-accent-only",
+      "command": "/propuesta",
+      "prompt": "Propuesta co-branding con partner Banco XYZ (color primario #003366). Bootcamp Trabajar Amplificado, equipo de 25 analistas.",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "brand_mode is cobrand"},
+        {"id": "a2", "text": "partner primary color #003366 applied to --gold token only"},
+        {"id": "a3", "text": "navy color (#0A1628) unchanged in output"},
+        {"id": "a4", "text": "both logos appear in header (MetodologIA + Banco XYZ)"},
+        {"id": "a5", "text": "W3 warning active: >20 participants requires additional facilitator note"}
+      ]
+    },
+    {
+      "id": "E09",
+      "name": "session-start-hook-catalog-load",
+      "command": "bash",
+      "prompt": "bash scripts/session-init.sh $(pwd)",
+      "expected_agent": null,
+      "assertions": [
+        {"id": "a1", "text": "output contains '17 services' or equivalent count"},
+        {"id": "a2", "text": "output shows tier breakdown (5 Tier 1, 4 Tier 2, 8 Tier 3)"},
+        {"id": "a3", "text": "output shows [POR CONFIRMAR] item count > 0"},
+        {"id": "a4", "text": "output lists all 5 slash commands"},
+        {"id": "a5", "text": ".proposal-state.json created in project directory"}
+      ]
+    },
+    {
+      "id": "E10",
+      "name": "blank-input-recovery",
+      "command": "/propuesta",
+      "prompt": "hola",
+      "expected_agent": "proposal-conductor",
+      "assertions": [
+        {"id": "a1", "text": "input-interpreter scores confidence 0-19%"},
+        {"id": "a2", "text": "conductor asks exactly ONE warm question"},
+        {"id": "a3", "text": "question is: 'Who is this proposal for?' or 'What do they need to solve?'"},
+        {"id": "a4", "text": "no proposal files generated yet"},
+        {"id": "a5", "text": "no error messages shown"}
+      ]
+    }
+  ]
+}

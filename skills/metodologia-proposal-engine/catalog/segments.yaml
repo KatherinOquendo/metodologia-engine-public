@@ -1,0 +1,111 @@
+# Segment Rules — Audience, Version, and Branding Matrix
+# Version: 1.0 | 2026-03-29
+
+# Document version mapping: what audience gets what file pattern
+document_versions:
+  ejecutiva-b2b:
+    audience: "C-suite, sponsors, board-level decision makers"
+    person: third   # "su equipo", "la organización" (ES) | "your team", "the organization" (EN)
+    max_words_per_sentence: 25
+    structure: "business case → ROI → risk of inaction → framework decision → continuity"
+    excludes: [operational details, SLA specifics, checklist, campus/LMS]
+    always_ends_with: CTA
+    tone_markers: [strategic, outcome-oriented, risk-aware]
+  ejecutiva-b2c:
+    audience: "Individual decision makers, professionals buying for themselves"
+    person: second  # "tu", "vas a" (ES) | "you", "you will" (EN)
+    max_words_per_sentence: 25
+    structure: "personal ROI → what changes → credibility → investment → CTA"
+    tone_markers: [direct, personal, concrete]
+  comercial-cliente-b2b:
+    audience: "Corporate buyers, team managers, department heads"
+    person: second  # "tu equipo" (ES) | "your team" (EN)
+    max_words_per_sentence: 20
+    structure: "pain hook → impact → solution → journey → deliverables → investment → CTA"
+    hook_rule: "first sentence names a recognizable pain — never 'we are a company that...'"
+  comercial-cliente-b2c:
+    audience: "Individual buyers, professionals, freelancers"
+    person: second
+    max_words_per_sentence: 20
+    tone_markers: [aspirational, concrete, emotionally grounded]
+  comercial-compras:
+    audience: "Procurement, legal, compliance, finance teams"
+    person: third
+    max_words_per_sentence: 30
+    structure: "spec sheet → scope → deliverables + acceptance criteria → obligations → SLA → full conditions"
+    prohibits: [marketing adjectives, aspirational language, emotional appeals]
+    requires: [IVA discriminated, RACI, exact SLA times, cancellation + force majeure terms]
+  usuario-inexperto:
+    audience: "Non-technical users, first-time AI learners"
+    person: second
+    max_words_per_sentence: 15
+    prohibits: [ROI, OKR, KPI, SLA, framework, "methodología ágil", sprint, stakeholder,
+                deliverable, pipeline, human-in-the-loop, SSOT, DoD, RACI, capstone, meta-prompt]
+    substitutions:
+      meta-prompt: "personalized instructions for the AI"
+      playbook: "step-by-step guide"
+      asistente IA: "AI tool configured for you"
+      bootcamp: "intensive practical course"
+      facilitador: "instructor / guide"
+      embajador: "your personal contact"
+      artefacto: "document / result you produce"
+      campus/LMS: "learning materials platform"
+
+# Which services are available per segment
+# Format: service_slug: [available segments]
+availability_matrix:
+  workshop-de-ocupado-a-productivo:        [b2b, b2c, cobrand, whitelabel]
+  bootcamp-trabajar-amplificado:           [b2b, b2c, cobrand, whitelabel]
+  consultive-workshop-estrategia-empresarial: [b2b, cobrand, whitelabel]
+  consultive-workshop-estrategia-personal: [b2c]
+  programa-digital-champions:             [b2b, b2c-open-cohort, cobrand, whitelabel]
+  programa-empoderamiento:               [b2c]   # B2B: POR CONFIRMAR PC-13
+  bootcamp-gerencia-proyectos:            [b2b, cobrand, whitelabel]
+  bootcamp-ofimatica-google:             [b2b, cobrand, whitelabel]
+  bootcamp-ofimatica-microsoft:          [b2b, cobrand, whitelabel]
+  bootcamp-ventas-amplificadas:          [b2b, cobrand, whitelabel]
+  iac/*:                                  [b2b, cobrand, whitelabel]  # B2C: POR CONFIRMAR
+
+# Branding mode rules
+branding_modes:
+  own:
+    description: "Full MetodologIA brand — default"
+    logo: metodologia
+    color_primary: "#122562"   # navy
+    color_accent: "#FFD700"    # gold
+    color_secondary: "#137DC5" # blue
+    typography_display: "Poppins → Arial (Office fallback)"
+    typography_body: "Trebuchet MS"
+    typography_note: "Futura / Trebuchet MS"
+    partner_visible: false
+  cobrand:
+    description: "MetodologIA + partner brand. Partner is co-presenter. MetodologIA is design base."
+    logo: both   # MetodologIA primary, partner secondary
+    color_primary: "#122562"   # never overridden
+    color_accent: PARTNER_PRIMARY   # partner's primary color replaces gold ONLY
+    color_secondary: "#137DC5"      # never overridden
+    typography_display: "Poppins → Arial (Office fallback)"   # never overridden
+    rule: "Partner brand added, not substituted. MetodologIA design system is base."
+    partner_visible: true
+    requires: [signed_master_contract, signed_brand_use_agreement, partner_brand_kit]
+  whitelabel:
+    description: "Partner brand only. MetodologIA completely invisible. Methodology intact."
+    logo: partner_only
+    color_primary: PARTNER_PRIMARY
+    color_accent: PARTNER_ACCENT
+    color_secondary: PARTNER_SECONDARY
+    typography_display: PARTNER_DISPLAY_FONT
+    typography_body: PARTNER_BODY_FONT
+    metodologia_mentioned: false   # never in any output
+    rule: "All visual tokens replaced. Content methodology, quality standards, and structure are unchanged. MetodologIA is not mentioned anywhere."
+    requires: [signed_license_contract, setup_fee_paid]
+    iac_is_whitelabel: true   # IAC channel always defaults to whitelabel
+
+# Runtime brand resolution logic (used by scripts/brand-resolver.js)
+brand_resolution:
+  # Priority order:
+  # 1. Explicit brand_mode in request → use that
+  # 2. Service default_brand_mode in services.yaml → use that
+  # 3. Channel identifier (e.g., "iac" prefix) → whitelabel
+  # 4. Default → own
+  fallback_chain: [explicit_input, service_default, channel_inference, own]

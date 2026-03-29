@@ -33,9 +33,11 @@ PC_COUNT=$(grep -r "POR_CONFIRMAR\|POR CONFIRMAR" "$SKILL_DIR/catalog/" 2>/dev/n
 PC_CRITICAL=$(grep -r "PC-01\|PC-02\|PC-05" "$SKILL_DIR/catalog/" 2>/dev/null | wc -l || echo "0")
 
 # ─── 3. Write proposal state file ────────────────────────────────────────────
+NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 cat > "$STATE_FILE" <<EOF
 {
-  "session_start": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "loaded_at": "$NOW",
+  "session_start": "$NOW",
   "plugin": "metodologia-engine",
   "catalog": {
     "total_services": $TOTAL,

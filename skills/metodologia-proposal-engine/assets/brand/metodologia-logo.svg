@@ -1,0 +1,29 @@
+<svg width="160" height="40" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MetodologIA">
+  <title>MetodologIA</title>
+  <defs>
+    <linearGradient id="ml-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1B4B"/>
+      <stop offset="100%" stop-color="#122562"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon mark: 36×36 rounded square -->
+  <rect x="0" y="2" width="36" height="36" rx="9" fill="url(#ml-bg)"/>
+
+  <!-- Three vertical bars (M letterform abstraction) -->
+  <rect x="8"  y="12" width="3.5" height="16" rx="1.5" fill="#FFFFFF"/>
+  <rect x="16" y="12" width="3.5" height="10" rx="1.5" fill="#FFFFFF"/>
+  <rect x="16" y="24" width="3.5" height="4"  rx="1.5" fill="#FFFFFF"/>
+  <rect x="24" y="12" width="3.5" height="7"  rx="1.5" fill="#FFFFFF"/>
+  <rect x="24" y="21" width="3.5" height="7"  rx="1.5" fill="#FFFFFF"/>
+
+  <!-- Gold dot — "IA" spark -->
+  <circle cx="18" cy="8" r="2.5" fill="#FFD700"/>
+
+  <!-- Wordmark: MetodologIA -->
+  <text x="44" y="18" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="700" fill="#122562" letter-spacing="-0.3">Metodolog</text>
+  <text x="120" y="18" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFD700" letter-spacing="-0.3">IA</text>
+
+  <!-- Tagline -->
+  <text x="44" y="32" font-family="Trebuchet MS, Arial, sans-serif" font-size="8.5" fill="#808080" letter-spacing="1.5">LEARNING AMPLIFIED</text>
+</svg>

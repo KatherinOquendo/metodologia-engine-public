@@ -3,143 +3,455 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{title}} — {{brand.logo.primary_name}}</title>
+  <meta name="generator" content="MetodologIA Proposal Engine v1.1">
+  <meta name="proposal-id" content="{{id}}">
+  <meta name="proposal-date" content="{{date}}">
+  <meta name="pdf-ready" content="true">
+  {{! White-label guard: brand.logo.primary_name never equals "MetodologIA" in whitelabel mode }}
+  <title>{{content.title}} — {{brand.logo.primary_name}}</title>
   {{#if brand.show_metodologia}}
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   {{/if}}
   <style>
+    /* ===== BRAND TOKENS (resolved by brand-resolver.js) ===== */
     :root {
-      --primary: {{brand.colors.primary}};
-      --accent: {{brand.colors.accent}};
-      --secondary: {{brand.colors.secondary}};
-      --dark: {{brand.colors.dark}};
-      --gray: {{brand.colors.gray}};
-      --white: {{brand.colors.white}};
-      --light: {{brand.colors.light}};
+      --primary:    {{brand.colors.primary}};
+      --accent:     {{brand.colors.accent}};
+      --secondary:  {{brand.colors.secondary}};
+      --dark:       {{brand.colors.dark}};
+      --gray:       {{brand.colors.gray}};
+      --white:      {{brand.colors.white}};
+      --light:      {{brand.colors.light}};
       --font-display: {{brand.fonts.display}};
-      --font-body: {{brand.fonts.body}};
-      --font-note: {{brand.fonts.note}};
+      --font-body:    {{brand.fonts.body}};
+      --font-note:    {{brand.fonts.note}};
+
+      /* Computed — static fallbacks avoid color-mix() compatibility issues */
+      --hero-gradient-start: {{brand.colors.primary}};
+      --hero-gradient-end:   {{brand.colors.secondary}};
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: var(--font-body); color: var(--dark); line-height: 1.6; background: var(--white); }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== BASE ===== */
+    body {
+      font-family: var(--font-body);
+      color: var(--dark);
+      line-height: 1.6;
+      background: var(--white);
+      font-size: 16px;
+    }
     .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
-    /* Header */
-    .header { background: var(--primary); padding: 16px 0; }
-    .header .container { display: flex; justify-content: space-between; align-items: center; }
-    .header .brand-name { color: var(--white); font-family: var(--font-display); font-size: 18px; font-weight: 700; }
-    .header .proposal-id { color: var(--accent); font-size: 12px; font-family: var(--font-note); }
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--primary);
+      padding: 14px 0;
+      page-break-inside: avoid;
+    }
+    .header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .header .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header .brand-logo img,
+    .header .brand-logo svg {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+    .header .brand-name {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .header .proposal-id {
+      color: var(--accent);
+      font-size: 11px;
+      font-family: var(--font-note);
+      letter-spacing: 1px;
+    }
 
-    /* Hero */
-    .hero { background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, var(--secondary)) 100%); padding: 64px 0 48px; color: var(--white); }
-    .hero h1 { font-family: var(--font-display); font-size: 36px; font-weight: 700; margin-bottom: 16px; }
-    .hero .hook { font-size: 18px; opacity: 0.9; max-width: 700px; }
+    {{! Cobrand: partner logo appears in header alongside primary brand }}
+    {{#if brand.logo.secondary_svg}}
+    .header .cobrand-sep {
+      width: 1px;
+      height: 28px;
+      background: rgba(255,255,255,0.25);
+    }
+    {{/if}}
 
-    /* Sections */
-    .section { padding: 48px 0; }
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--hero-gradient-start) 0%, var(--hero-gradient-end) 100%);
+      padding: 60px 0 48px;
+      color: var(--white);
+      page-break-after: avoid;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .hero .hook {
+      font-size: clamp(15px, 2vw, 18px);
+      opacity: 0.92;
+      max-width: 680px;
+      line-height: 1.55;
+    }
+    .hero .client-meta {
+      margin-top: 28px;
+      font-size: 13px;
+      opacity: 0.75;
+      font-family: var(--font-note);
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section { padding: 52px 0; }
     .section:nth-child(even) { background: var(--light); }
-    .section-tag { display: inline-block; font-family: var(--font-note); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--secondary); margin-bottom: 8px; }
-    .section h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--primary); margin-bottom: 24px; border-bottom: 3px solid var(--accent); padding-bottom: 8px; display: inline-block; }
+
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-note);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 24px;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 8px;
+      display: inline-block;
+    }
     .section p { margin-bottom: 16px; max-width: 750px; }
 
-    /* Scope list */
+    /* ===== SCOPE ===== */
     .scope-list { list-style: none; padding: 0; }
-    .scope-list li { padding: 8px 0 8px 24px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .scope-list li::before { content: ""; position: absolute; left: 0; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
-    .exclusions { color: var(--gray); font-style: italic; margin-top: 16px; }
+    .scope-list li {
+      padding: 9px 0 9px 26px;
+      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .scope-list li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 16px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .exclusions {
+      color: var(--gray);
+      font-style: italic;
+      margin-top: 16px;
+      font-size: 14px;
+    }
 
-    /* Plan timeline */
-    .plan-item { display: flex; gap: 24px; padding: 16px 0; border-left: 3px solid var(--accent); margin-left: 16px; padding-left: 24px; }
-    .plan-item .phase-name { font-weight: 600; min-width: 200px; }
-    .plan-item .phase-duration { color: var(--secondary); font-size: 14px; }
+    /* ===== PLAN TIMELINE ===== */
+    .plan-item {
+      display: flex;
+      gap: 24px;
+      padding: 16px 0;
+      border-left: 3px solid var(--accent);
+      margin-left: 12px;
+      padding-left: 24px;
+      page-break-inside: avoid;
+    }
+    .plan-item .phase-name  { font-weight: 600; min-width: 200px; color: var(--dark); }
+    .plan-item .phase-duration  { color: var(--secondary); font-size: 14px; }
     .plan-item .phase-milestone { color: var(--gray); font-size: 14px; }
 
-    /* Investment table */
-    .investment-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .investment-table th { background: var(--primary); color: var(--white); padding: 12px 16px; text-align: left; font-family: var(--font-display); font-size: 14px; }
-    .investment-table td { padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    /* ===== INVESTMENT TABLE ===== */
+    .investment-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      page-break-inside: avoid;
+    }
+    .investment-table th {
+      background: var(--primary);
+      color: var(--white);
+      padding: 11px 14px;
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 13px;
+    }
+    .investment-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      font-size: 14px;
+    }
     .investment-table tr:nth-child(even) td { background: var(--light); }
-    .investment-table .total-row { background: var(--accent) !important; font-weight: 700; }
-    .investment-table .total-row td { color: var(--primary); border: none; }
-    .price-note { font-size: 13px; color: var(--gray); margin-top: 8px; }
+    .investment-table .subtotal-row td {
+      color: var(--gray);
+      font-size: 13px;
+      border-bottom: 1px dashed rgba(0,0,0,0.12);
+    }
+    .investment-table .iva-row td {
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .investment-table .total-row td {
+      background: var(--accent) !important;
+      font-weight: 700;
+      color: var(--primary);
+      border: none;
+      font-size: 15px;
+    }
+    .price-note { font-size: 12px; color: var(--gray); margin-top: 10px; }
+    .validity-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .validity-note::before {
+      content: "⏱";
+      font-size: 13px;
+    }
 
-    /* Why section */
-    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 16px; }
-    .why-card { padding: 24px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: var(--white); }
-    .why-card p { font-size: 14px; color: var(--dark); }
+    /* ===== POR CONFIRMAR badge ===== */
+    .por-confirmar {
+      display: inline-block;
+      background: #FFF3CD;
+      border-left: 3px solid #FFC107;
+      color: #7B5E00;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-family: var(--font-note);
+    }
 
-    /* CTA */
+    /* ===== GUARANTEE CLAUSE ===== */
+    .guarantee-section {
+      background: #F0F7EE;
+      border: 1px solid #A8D5A2;
+      border-left: 4px solid #2D8A4E;
+      border-radius: 6px;
+      padding: 18px 20px;
+      margin-top: 24px;
+      page-break-inside: avoid;
+    }
+    .guarantee-section .guarantee-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #2D8A4E;
+      margin-bottom: 8px;
+    }
+    .guarantee-section p {
+      font-size: 14px;
+      color: var(--dark);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ===== WHY CARDS ===== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .why-card {
+      padding: 22px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--white);
+      page-break-inside: avoid;
+    }
+    .why-card p { font-size: 14px; color: var(--dark); margin: 0; }
+
+    /* ===== CTA ===== */
     .cta-section { text-align: center; padding: 64px 0; }
-    .cta-button { display: inline-block; background: var(--accent); color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 18px; padding: 16px 48px; border-radius: 8px; text-decoration: none; transition: opacity 0.2s; }
-    .cta-button:hover { opacity: 0.85; }
-    .cta-date { margin-top: 12px; color: var(--gray); font-size: 14px; }
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 17px;
+      padding: 16px 48px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .cta-date { margin-top: 12px; color: var(--gray); font-size: 13px; }
 
-    /* Footer */
-    .footer { background: var(--primary); padding: 24px 0; color: var(--white); font-size: 12px; }
-    .footer .container { display: flex; justify-content: space-between; opacity: 0.8; }
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--primary);
+      padding: 22px 0;
+      color: var(--white);
+      font-size: 12px;
+      page-break-inside: avoid;
+    }
+    .footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0.8;
+    }
 
-    /* Responsive */
+    /* ===== INNOVATION DISCLAIMER ===== */
+    .innovation-disclaimer {
+      background: #FFF8E6;
+      border: 1px solid #F5C842;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 24px 0;
+      font-size: 13px;
+      color: #5C4500;
+      line-height: 1.5;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {
-      .hero h1 { font-size: 24px; }
       .hero { padding: 40px 0 32px; }
-      .section { padding: 32px 0; }
+      .section { padding: 36px 0; }
       .why-grid { grid-template-columns: 1fr; }
       .plan-item { flex-direction: column; gap: 4px; }
+      .header .container { flex-wrap: wrap; }
+    }
+
+    /* ===== PRINT / PDF ===== */
+    @media print {
+      body { font-size: 13px; }
+
+      /* Static gradient — avoids color-mix() and var() issues in PDF renderers */
+      .hero { background: {{brand.colors.primary}} !important; }
+
+      /* Remove interactive styles */
+      .cta-button { background: var(--accent); color: var(--primary); text-decoration: none; }
+
+      /* Remove external font load */
+      .header, .section h2, .hero h1, .cta-button {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* Shadows → none for clean PDF */
+      .why-card { box-shadow: none; border: 1px solid #ddd; }
+
+      /* Page break control */
+      .section { page-break-inside: avoid; }
+      .plan-item { page-break-inside: avoid; }
+      .investment-table { page-break-inside: avoid; }
+      .guarantee-section { page-break-inside: avoid; }
+      .why-card { page-break-inside: avoid; }
+
+      /* Hide interactive CTA */
+      .cta-section { display: none; }
+
+      /* Footer on every page */
+      .footer { position: fixed; bottom: 0; width: 100%; }
     }
   </style>
 </head>
 <body>
 
+  <!-- HEADER: own vs cobrand layout -->
   <header class="header">
     <div class="container">
-      <span class="brand-name">{{brand.logo.primary_name}}</span>
+      <div class="brand-area">
+        {{#if brand.show_metodologia}}
+        <div class="brand-logo" aria-label="{{brand.logo.primary_name}}">
+          {{{brand.logo.primary_svg}}}
+        </div>
+        {{else}}
+        {{! Whitelabel: primary brand is the partner, MetodologIA is absent }}
+        <span class="brand-name">{{brand.logo.primary_name}}</span>
+        {{/if}}
+
+        {{#if brand.logo.secondary_svg}}
+        <div class="cobrand-sep" role="presentation"></div>
+        <div class="brand-logo" aria-label="{{brand.logo.secondary_name}}">
+          {{{brand.logo.secondary_svg}}}
+        </div>
+        {{/if}}
+      </div>
       <span class="proposal-id">{{id}}</span>
     </div>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <h1>{{title}}</h1>
-      <p class="hook">{{hook}}</p>
+      <h1>{{content.title}}</h1>
+      <p class="hook">{{content.hook}}</p>
+      <p class="client-meta">
+        {{client.name}} &middot; {{client.company}} &middot; {{client.industry}}
+      </p>
     </div>
   </section>
 
+  {{! INNOVATION MODE disclaimer — only rendered if mode=INNOVATION }}
+  {{#if is_innovation}}
+  <div class="container" style="padding-top:20px;">
+    <div class="innovation-disclaimer">
+      <strong>{{labels.innovation_notice_label}}:</strong> {{labels.innovation_notice}}
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- CHALLENGE / PROBLEM -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.challenge}}</span>
+      <span class="section-tag">{{labels.challenge_tag}}</span>
       <h2>{{labels.challenge}}</h2>
-      <p>{{problem}}</p>
+      <div>{{{content.problem}}}</div>
     </div>
   </section>
 
+  <!-- SOLUTION (Minto Conclusion) -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.solution}}</span>
+      <span class="section-tag">{{labels.solution_tag}}</span>
       <h2>{{labels.solution}}</h2>
-      <p>{{solution}}</p>
+      <div>{{{content.solution}}}</div>
     </div>
   </section>
 
+  <!-- SCOPE + EXCLUSIONS -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.scope}}</span>
+      <span class="section-tag">{{labels.scope_tag}}</span>
       <h2>{{labels.scope}}</h2>
       <ul class="scope-list">
-        {{#each scope}}
+        {{#each content.scope}}
         <li>{{this}}</li>
         {{/each}}
       </ul>
-      {{#if exclusions}}
-      <p class="exclusions">{{labels.exclusions}}: {{exclusions}}</p>
+      {{#if content.exclusions}}
+      <p class="exclusions"><strong>{{labels.not_included}}:</strong> {{content.exclusions}}</p>
       {{/if}}
     </div>
   </section>
 
+  <!-- PLAN / PHASES -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.plan}}</span>
+      <span class="section-tag">{{labels.plan_tag}}</span>
       <h2>{{labels.plan}}</h2>
-      {{#each plan}}
+      {{#each content.plan}}
       <div class="plan-item">
         <span class="phase-name">{{this.name}}</span>
         <span class="phase-duration">{{this.duration}}</span>
@@ -149,42 +461,73 @@
     </div>
   </section>
 
+  <!-- INVESTMENT TABLE (with IVA row) -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.investment}}</span>
+      <span class="section-tag">{{labels.investment_tag}}</span>
       <h2>{{labels.investment}}</h2>
+
       <table class="investment-table">
         <thead>
           <tr>
             <th>{{labels.service}}</th>
             <th>{{labels.description}}</th>
-            <th>{{labels.price}}</th>
+            <th style="text-align:right; min-width:120px;">{{labels.price}}</th>
           </tr>
         </thead>
         <tbody>
           {{#each services}}
           <tr>
-            <td>{{this.name}}</td>
+            <td>
+              {{this.name}}
+              {{#unless this.is_standard}}
+              <span class="por-confirmar">[POR CONFIRMAR]</span>
+              {{/unless}}
+            </td>
             <td>{{this.description}}</td>
-            <td>{{this.price_formatted}}</td>
+            <td style="text-align:right; white-space:nowrap;">{{this.price_formatted}}</td>
           </tr>
           {{/each}}
+
+          {{! IVA row: only shown when vat_label is provided (B2B discriminated) }}
+          {{#if vat_label}}
+          <tr class="subtotal-row">
+            <td colspan="2">{{labels.subtotal}}</td>
+            <td style="text-align:right;">{{subtotal_formatted}}</td>
+          </tr>
+          <tr class="iva-row">
+            <td colspan="2">{{vat_label}} (19%)</td>
+            <td style="text-align:right;">{{vat_formatted}}</td>
+          </tr>
+          {{/if}}
+
           <tr class="total-row">
             <td colspan="2">{{labels.total}}</td>
-            <td>{{total_formatted}}</td>
+            <td style="text-align:right;">{{total_formatted}}</td>
           </tr>
         </tbody>
       </table>
+
       <p class="price-note">{{payment_terms}}</p>
+
+      {{! USD rate disclaimer — always shown if any USD pricing present }}
+      {{#if has_usd}}
+      <p class="price-note">{{labels.usd_disclaimer}}</p>
+      {{/if}}
+
+      <p class="validity-note">
+        {{labels.valid_until_prefix}} {{valid_until_date}} ({{valid_days}} {{labels.days}})
+      </p>
     </div>
   </section>
 
+  <!-- WHY US -->
   <section class="section">
     <div class="container">
-      <span class="section-tag">{{labels.why}}</span>
+      <span class="section-tag">{{labels.why_tag}}</span>
       <h2>{{labels.why}}</h2>
       <div class="why-grid">
-        {{#each why}}
+        {{#each content.why}}
         <div class="why-card">
           <p>{{this}}</p>
         </div>
@@ -193,15 +536,31 @@
     </div>
   </section>
 
+  {{! GUARANTEE CLAUSE — only rendered if guarantee_applies=true }}
+  {{#if guarantee_applies}}
+  <section class="section">
+    <div class="container">
+      <div class="guarantee-section">
+        <div class="guarantee-label">{{labels.guarantee_label}}</div>
+        <p>{{guarantee_text}}</p>
+      </div>
+    </div>
+  </section>
+  {{/if}}
+
+  <!-- CTA -->
   <section class="cta-section">
     <div class="container">
-      <a href="mailto:{{provider_email}}?subject={{title}}" class="cta-button">{{cta_text}}</a>
-      {{#if cta_date}}
-      <p class="cta-date">{{cta_date}}</p>
+      <a href="mailto:{{provider.email}}?subject={{content.title}}" class="cta-button">
+        {{content.cta_text}}
+      </a>
+      {{#if cta.suggested_date}}
+      <p class="cta-date">{{cta.suggested_date}}</p>
       {{/if}}
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <span>{{brand.logo.primary_name}} &mdash; {{id}}</span>

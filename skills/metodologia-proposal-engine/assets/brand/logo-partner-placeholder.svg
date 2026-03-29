@@ -1,0 +1,16 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Partner Logo Placeholder">
+  <title>Partner Logo</title>
+  <!-- Replace this file with the partner's actual logo SVG in cobrand/whitelabel mode -->
+  <!-- brand-resolver.js uses this as fallback when partner.logo_svg is not provided -->
+
+  <rect width="120" height="40" rx="6" fill="#888888" opacity="0.12"/>
+  <rect x="0.5" y="0.5" width="119" height="39" rx="5.5" fill="none" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- Generic icon -->
+  <circle cx="22" cy="20" r="10" fill="none" stroke="#888888" stroke-width="1.5"/>
+  <circle cx="22" cy="20" r="4"  fill="#888888" opacity="0.4"/>
+
+  <!-- "PARTNER LOGO" label -->
+  <text x="40" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#888888" letter-spacing="0.5">PARTNER</text>
+  <text x="40" y="28" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#888888" letter-spacing="0.5">LOGO</text>
+</svg>

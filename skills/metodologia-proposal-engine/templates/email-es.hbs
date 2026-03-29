@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<!--
+  email-es.hbs — Spanish proposal delivery email
+  Usage: generate-all.js renders this with the full ProposalData object
+  Renderer: Handlebars (same engine as proposal-html.hbs)
+  Output: inline-styled HTML email, max-width 600px, dark-mode aware
+  Tested against: Gmail, Outlook 2019, Apple Mail, mobile clients
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Propuesta: {{content.title}}</title>
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+  </o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+  <style>
+    /* Client-specific resets */
+    body, #bodyTable { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+    img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+    table { border-collapse: collapse !important; }
+    #bodyTable { height: 100% !important; }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .email-bg    { background-color: #1a1a2e !important; }
+      .email-body  { background-color: #16213e !important; }
+      .body-text   { color: #e0e0e0 !important; }
+      .footer-text { color: #9a9a9a !important; }
+    }
+
+    /* Responsive */
+    @media only screen and (max-width: 600px) {
+      .email-container { width: 100% !important; }
+      .cta-button      { display: block !important; text-align: center !important; }
+      .content-pad     { padding: 24px 16px !important; }
+      .hero-pad        { padding: 32px 16px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;" class="email-bg">
+
+<table id="bodyTable" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr><td align="center" style="padding: 24px 8px;">
+
+  <!-- EMAIL CONTAINER: max 600px -->
+  <table class="email-container" width="600" cellspacing="0" cellpadding="0" border="0"
+         style="background:#ffffff; border-radius:10px; overflow:hidden;
+                box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+
+    <!-- ===== HEADER ===== -->
+    <tr>
+      <td style="background-color:{{brand.colors.primary}}; padding:16px 28px;">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>
+              {{#if brand.show_metodologia}}
+              <!-- MetodologIA logo (own / cobrand) -->
+              {{{brand.logo.primary_svg}}}
+              {{else}}
+              <!-- Whitelabel: partner name only -->
+              <span style="font-family:Arial,sans-serif;font-size:16px;font-weight:700;
+                           color:#ffffff;">{{brand.logo.primary_name}}</span>
+              {{/if}}
+            </td>
+            {{#if brand.logo.secondary_svg}}
+            <td style="padding-left:16px; border-left:1px solid rgba(255,255,255,0.25);">
+              {{{brand.logo.secondary_svg}}}
+            </td>
+            {{/if}}
+            <td align="right">
+              <span style="font-family:monospace;font-size:11px;
+                           color:{{brand.colors.accent}};letter-spacing:1px;">{{id}}</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- ===== HERO STRIP ===== -->
+    <tr>
+      <td class="hero-pad" style="background:{{brand.colors.secondary}}; padding:36px 28px 28px;">
+        <p style="font-family:Arial,sans-serif;font-size:11px;text-transform:uppercase;
+                  letter-spacing:3px;color:rgba(255,255,255,0.75);margin:0 0 8px;">
+          Propuesta comercial
+        </p>
+        <h1 style="font-family:Arial,sans-serif;font-size:24px;font-weight:700;
+                   color:#ffffff;margin:0 0 12px;line-height:1.25;">
+          {{content.title}}
+        </h1>
+        <p style="font-family:Arial,sans-serif;font-size:15px;
+                  color:rgba(255,255,255,0.90);margin:0;line-height:1.5;">
+          {{content.hook}}
+        </p>
+      </td>
+    </tr>
+
+    <!-- ===== BODY ===== -->
+    <tr>
+      <td class="content-pad email-body" style="padding:32px 28px;">
+
+        <!-- Salutation -->
+        <p class="body-text" style="font-family:Arial,sans-serif;font-size:15px;
+                                     color:#1F2833;margin:0 0 16px;">
+          Estimado/a <strong>{{client.name}}</strong>,
+        </p>
+
+        <!-- Opening paragraph -->
+        <p class="body-text" style="font-family:Arial,sans-serif;font-size:15px;
+                                     color:#1F2833;margin:0 0 20px;line-height:1.6;">
+          Adjunto encontrará la propuesta comercial que preparamos para <strong>{{client.company}}</strong>.
+          El servicio propuesto es <strong>{{service_name}}</strong> —
+          diseñado específicamente para abordar el reto que conversamos.
+        </p>
+
+        <!-- Investment highlight -->
+        <table width="100%" cellspacing="0" cellpadding="0" border="0"
+               style="background:#f7f9fc;border-radius:8px;margin:0 0 24px;">
+          <tr>
+            <td style="padding:20px 22px;">
+              <p style="font-family:Arial,sans-serif;font-size:12px;text-transform:uppercase;
+                        letter-spacing:2px;color:{{brand.colors.secondary}};margin:0 0 6px;">
+                Inversión
+              </p>
+              <p style="font-family:Arial,sans-serif;font-size:22px;font-weight:700;
+                        color:{{brand.colors.primary}};margin:0 0 4px;">
+                {{total_formatted}}
+              </p>
+              <p style="font-family:Arial,sans-serif;font-size:12px;
+                        color:#808080;margin:0;">
+                {{payment_terms}}
+              </p>
+              {{#if has_usd}}
+              <p style="font-family:Arial,sans-serif;font-size:11px;
+                        color:#808080;margin:4px 0 0;">
+                (Tasa indicativa, sujeta a variación)
+              </p>
+              {{/if}}
+            </td>
+            <td align="right" style="padding:20px 22px;vertical-align:middle;">
+              <span style="background:{{brand.colors.accent}};color:{{brand.colors.primary}};
+                           font-family:Arial,sans-serif;font-size:11px;font-weight:700;
+                           padding:4px 10px;border-radius:12px;letter-spacing:0.5px;">
+                {{labels.valid}} {{valid_days}} días
+              </span>
+            </td>
+          </tr>
+        </table>
+
+        <!-- What's included — 3 scope bullets -->
+        <p style="font-family:Arial,sans-serif;font-size:13px;text-transform:uppercase;
+                  letter-spacing:2px;color:{{brand.colors.secondary}};margin:0 0 10px;">
+          Incluye
+        </p>
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 24px;">
+          {{#each content.scope}}
+          {{#if @index}}{{else}}
+          <tr>
+            <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:14px;color:#1F2833;">
+              <span style="color:{{../brand.colors.accent}};font-size:16px;margin-right:8px;">&#8226;</span>
+              {{this}}
+            </td>
+          </tr>
+          {{/if}}
+          {{/each}}
+          {{! Show first 3 scope items; rest in full proposal }}
+          {{#each content.scope}}
+          {{#if @index}}
+          {{#unless @last}}
+          <tr>
+            <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:14px;color:#1F2833;">
+              <span style="color:{{../brand.colors.accent}};font-size:16px;margin-right:8px;">&#8226;</span>
+              {{this}}
+            </td>
+          </tr>
+          {{/unless}}
+          {{/if}}
+          {{/each}}
+        </table>
+
+        <!-- Divider -->
+        <hr style="border:none;border-top:1px solid #e8e8e8;margin:0 0 24px;">
+
+        <!-- CTA button -->
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td align="center" style="padding:8px 0 24px;">
+              <a href="{{proposal_url}}" class="cta-button"
+                 style="display:inline-block;background-color:{{brand.colors.accent}};
+                        color:{{brand.colors.primary}};font-family:Arial,sans-serif;
+                        font-size:15px;font-weight:700;text-decoration:none;
+                        padding:14px 40px;border-radius:8px;">
+                Ver propuesta completa
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Next step paragraph -->
+        <p class="body-text" style="font-family:Arial,sans-serif;font-size:14px;
+                                     color:#1F2833;margin:0 0 16px;line-height:1.6;">
+          Si desea ajustar algún detalle — alcance, fechas o condiciones de pago —
+          con gusto lo revisamos. Esta propuesta es válida hasta el
+          <strong>{{valid_until_date}}</strong>.
+        </p>
+
+        <!-- Guarantee note (conditional) -->
+        {{#if guarantee_applies}}
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="background:#f0f7ee;border-left:3px solid #2D8A4E;
+                       border-radius:4px;padding:12px 16px;margin:16px 0 24px;">
+              <p style="font-family:Arial,sans-serif;font-size:12px;text-transform:uppercase;
+                        letter-spacing:1.5px;color:#2D8A4E;margin:0 0 4px;">Garantía</p>
+              <p style="font-family:Arial,sans-serif;font-size:13px;
+                        color:#1F2833;margin:0;line-height:1.5;">
+                {{guarantee_text}}
+              </p>
+            </td>
+          </tr>
+        </table>
+        {{/if}}
+
+        <!-- Signature -->
+        <p class="body-text" style="font-family:Arial,sans-serif;font-size:15px;
+                                     color:#1F2833;margin:24px 0 4px;">
+          Cordialmente,
+        </p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;
+                  color:{{brand.colors.primary}};margin:0 0 2px;">
+          {{provider.name}}
+        </p>
+        <p style="font-family:Arial,sans-serif;font-size:13px;color:#808080;margin:0;">
+          {{provider.company}} &bull; <a href="mailto:{{provider.email}}"
+            style="color:{{brand.colors.secondary}};text-decoration:none;">{{provider.email}}</a>
+          {{#if provider.web}}
+          &bull; <a href="{{provider.web}}" style="color:{{brand.colors.secondary}};text-decoration:none;">{{provider.web}}</a>
+          {{/if}}
+        </p>
+
+      </td>
+    </tr>
+
+    <!-- ===== FOOTER ===== -->
+    <tr>
+      <td style="background-color:{{brand.colors.primary}};padding:16px 28px;">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>
+              <p class="footer-text" style="font-family:Arial,sans-serif;font-size:11px;
+                                             color:rgba(255,255,255,0.65);margin:0;">
+                {{brand.logo.primary_name}} &mdash; {{id}} &bull; {{date}}
+              </p>
+            </td>
+            <td align="right">
+              <p class="footer-text" style="font-family:Arial,sans-serif;font-size:11px;
+                                             color:rgba(255,255,255,0.50);margin:0;">
+                Propuesta generada por MetodologIA Proposal Engine
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+  <!-- END EMAIL CONTAINER -->
+
+  <!-- Legal micro-text below card -->
+  <p style="font-family:Arial,sans-serif;font-size:11px;color:#a0a0a0;
+            text-align:center;margin:16px 0 0;max-width:600px;">
+    Esta comunicación y sus adjuntos son confidenciales. Si la recibiste por error,
+    elimínala y notifica al remitente. Los precios son indicativos y están sujetos a
+    confirmación de disponibilidad y condiciones vigentes.
+  </p>
+
+</td></tr>
+</table>
+
+</body>
+</html>

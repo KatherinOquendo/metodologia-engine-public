@@ -1,0 +1,487 @@
+{
+  "_comment": "pptx-config.json — PptxGenJS slide layout config for MetodologIA Proposal Engine",
+  "_version": "1.0",
+  "_renderer": "pptxgenjs@3",
+  "_usage": "generate-all.js reads this file to build PPTX decks. brand-resolver.js overrides color tokens at runtime.",
+
+  "presentation": {
+    "layout": "LAYOUT_WIDE",
+    "author": "MetodologIA Proposal Engine",
+    "company": "MetodologIA",
+    "subject": "Commercial Proposal",
+    "rtlMode": false,
+    "compatMode": true
+  },
+
+  "theme": {
+    "_note": "Colors are runtime-overridden by brand-resolver.js. These are MetodologIA own-mode defaults.",
+    "primary":   "#122562",
+    "accent":    "#FFD700",
+    "secondary": "#137DC5",
+    "dark":      "#1F2833",
+    "gray":      "#808080",
+    "white":     "#FFFFFF",
+    "light":     "#F5F7FA",
+    "font_display": "Poppins",
+    "font_display_fallback": "Arial",
+    "font_body": "Trebuchet MS",
+    "font_body_fallback": "Arial",
+    "font_note": "Courier New"
+  },
+
+  "slide_dimensions": {
+    "width":  10,
+    "height": 5.625
+  },
+
+  "slides": [
+    {
+      "id": "cover",
+      "order": 1,
+      "name": "Cover",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "bg_full",
+          "x": 0, "y": 0, "w": "100%", "h": "100%",
+          "fill": { "color": "{{primary}}" }
+        },
+        {
+          "type": "rect",
+          "name": "accent_stripe",
+          "x": 0, "y": 4.8, "w": "100%", "h": 0.08,
+          "fill": { "color": "{{accent}}" }
+        },
+        {
+          "type": "image",
+          "name": "logo",
+          "path": "{{logo_path}}",
+          "x": 0.5, "y": 0.4, "w": 2.0, "h": 0.5
+        },
+        {
+          "type": "text",
+          "name": "service_label",
+          "x": 0.5, "y": 1.6, "w": 9.0, "h": 0.3,
+          "value": "{{service_type_label}}",
+          "options": {
+            "fontSize": 10, "color": "{{accent}}", "bold": false,
+            "charSpacing": 4, "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "proposal_title",
+          "x": 0.5, "y": 1.95, "w": 9.0, "h": 1.4,
+          "value": "{{content.title}}",
+          "options": {
+            "fontSize": 34, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}", "breakLine": true
+          }
+        },
+        {
+          "type": "text",
+          "name": "hook",
+          "x": 0.5, "y": 3.45, "w": 7.5, "h": 0.8,
+          "value": "{{content.hook}}",
+          "options": {
+            "fontSize": 14, "color": "DDDDDD", "italic": false,
+            "fontFace": "{{font_body}}", "breakLine": true
+          }
+        },
+        {
+          "type": "text",
+          "name": "client_meta",
+          "x": 0.5, "y": 4.5, "w": 6.0, "h": 0.25,
+          "value": "{{client.company}}  ·  {{date}}  ·  {{id}}",
+          "options": {
+            "fontSize": 9, "color": "AAAAAA", "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "proposal_id",
+          "x": 8.0, "y": 4.5, "w": 2.0, "h": 0.25,
+          "value": "{{id}}",
+          "options": {
+            "fontSize": 9, "color": "{{accent}}", "align": "right",
+            "fontFace": "{{font_note}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "challenge",
+      "order": 2,
+      "name": "The Challenge",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "header_bar",
+          "x": 0, "y": 0, "w": "100%", "h": 1.1,
+          "fill": { "color": "{{primary}}" }
+        },
+        {
+          "type": "text",
+          "name": "section_tag",
+          "x": 0.5, "y": 0.18, "w": 9.0, "h": 0.25,
+          "value": "{{labels.challenge_tag}}",
+          "options": {
+            "fontSize": 9, "color": "{{accent}}", "bold": false,
+            "charSpacing": 4, "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "section_title",
+          "x": 0.5, "y": 0.45, "w": 9.0, "h": 0.5,
+          "value": "{{labels.challenge}}",
+          "options": {
+            "fontSize": 22, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "problem_text",
+          "x": 0.5, "y": 1.3, "w": 9.0, "h": 3.8,
+          "value": "{{content.problem}}",
+          "options": {
+            "fontSize": 14, "color": "{{dark}}", "breakLine": true,
+            "fontFace": "{{font_body}}", "paraSpaceAfter": 6
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "solution",
+      "order": 3,
+      "name": "Our Solution",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "header_bar",
+          "x": 0, "y": 0, "w": "100%", "h": 1.1,
+          "fill": { "color": "{{secondary}}" }
+        },
+        {
+          "type": "text",
+          "name": "section_tag",
+          "x": 0.5, "y": 0.18, "w": 9.0, "h": 0.25,
+          "value": "{{labels.solution_tag}}",
+          "options": {
+            "fontSize": 9, "color": "FFFFFF", "charSpacing": 4,
+            "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "section_title",
+          "x": 0.5, "y": 0.45, "w": 9.0, "h": 0.5,
+          "value": "{{labels.solution}}",
+          "options": {
+            "fontSize": 22, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "solution_text",
+          "x": 0.5, "y": 1.3, "w": 9.0, "h": 3.8,
+          "value": "{{content.solution}}",
+          "options": {
+            "fontSize": 14, "color": "{{dark}}", "breakLine": true,
+            "fontFace": "{{font_body}}", "paraSpaceAfter": 6
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "scope",
+      "order": 4,
+      "name": "Scope",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "header_bar",
+          "x": 0, "y": 0, "w": "100%", "h": 1.1,
+          "fill": { "color": "{{primary}}" }
+        },
+        {
+          "type": "text",
+          "name": "section_tag",
+          "x": 0.5, "y": 0.18, "w": 9.0, "h": 0.25,
+          "value": "{{labels.scope_tag}}",
+          "options": {
+            "fontSize": 9, "color": "{{accent}}", "charSpacing": 4,
+            "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "section_title",
+          "x": 0.5, "y": 0.45, "w": 9.0, "h": 0.5,
+          "value": "{{labels.scope}}",
+          "options": {
+            "fontSize": 22, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "scope_bullets",
+          "x": 0.5, "y": 1.3, "w": 9.0, "h": 3.8,
+          "value": "{{scope_bullets_text}}",
+          "_note": "generate-all.js joins content.scope[] into bullet string before rendering",
+          "options": {
+            "fontSize": 13, "color": "{{dark}}", "breakLine": true,
+            "fontFace": "{{font_body}}", "paraSpaceAfter": 4,
+            "bullet": { "type": "bullet", "color": "{{accent}}" }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "investment",
+      "order": 5,
+      "name": "Investment",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "header_bar",
+          "x": 0, "y": 0, "w": "100%", "h": 1.1,
+          "fill": { "color": "{{primary}}" }
+        },
+        {
+          "type": "text",
+          "name": "section_tag",
+          "x": 0.5, "y": 0.18, "w": 9.0, "h": 0.25,
+          "value": "{{labels.investment_tag}}",
+          "options": {
+            "fontSize": 9, "color": "{{accent}}", "charSpacing": 4,
+            "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "section_title",
+          "x": 0.5, "y": 0.45, "w": 9.0, "h": 0.5,
+          "value": "{{labels.investment}}",
+          "options": {
+            "fontSize": 22, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "table",
+          "name": "investment_table",
+          "x": 0.5, "y": 1.3, "w": 9.0,
+          "_source": "services",
+          "_note": "generate-all.js builds colW, rows[], and total_row from ProposalData.services[]",
+          "colW": [3.5, 3.5, 2.0],
+          "options": {
+            "fontSize": 12,
+            "border": { "type": "solid", "pt": 0.5, "color": "EEEEEE" },
+            "autoPage": true,
+            "headerRow": {
+              "fill": { "color": "{{primary}}" },
+              "color": "FFFFFF",
+              "bold": true,
+              "fontSize": 11
+            }
+          }
+        },
+        {
+          "type": "text",
+          "name": "payment_note",
+          "x": 0.5, "y": 5.1, "w": 9.0, "h": 0.3,
+          "value": "{{payment_terms}}",
+          "options": {
+            "fontSize": 9, "color": "{{gray}}", "italic": true,
+            "fontFace": "{{font_note}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "why",
+      "order": 6,
+      "name": "Why Us",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "header_bar",
+          "x": 0, "y": 0, "w": "100%", "h": 1.1,
+          "fill": { "color": "{{secondary}}" }
+        },
+        {
+          "type": "text",
+          "name": "section_tag",
+          "x": 0.5, "y": 0.18, "w": 9.0, "h": 0.25,
+          "value": "{{labels.why_tag}}",
+          "options": {
+            "fontSize": 9, "color": "FFFFFF", "charSpacing": 4,
+            "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "section_title",
+          "x": 0.5, "y": 0.45, "w": 9.0, "h": 0.5,
+          "value": "{{labels.why}}",
+          "options": {
+            "fontSize": 22, "color": "FFFFFF", "bold": true,
+            "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "why_bullets",
+          "x": 0.5, "y": 1.3, "w": 9.0, "h": 3.8,
+          "value": "{{why_bullets_text}}",
+          "_note": "generate-all.js joins content.why[] into bullet string",
+          "options": {
+            "fontSize": 13, "color": "{{dark}}", "breakLine": true,
+            "fontFace": "{{font_body}}", "paraSpaceAfter": 6,
+            "bullet": { "type": "bullet", "color": "{{accent}}" }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "cta",
+      "order": 7,
+      "name": "Next Step",
+      "required": true,
+      "elements": [
+        {
+          "type": "rect",
+          "name": "bg_full",
+          "x": 0, "y": 0, "w": "100%", "h": "100%",
+          "fill": { "color": "{{primary}}" }
+        },
+        {
+          "type": "rect",
+          "name": "accent_stripe",
+          "x": 0, "y": 0, "w": "100%", "h": 0.08,
+          "fill": { "color": "{{accent}}" }
+        },
+        {
+          "type": "text",
+          "name": "cta_title",
+          "x": 1.0, "y": 1.2, "w": 8.0, "h": 0.8,
+          "value": "{{labels.next_step}}",
+          "options": {
+            "fontSize": 28, "color": "FFFFFF", "bold": true,
+            "align": "center", "fontFace": "{{font_display}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "cta_text",
+          "x": 1.0, "y": 2.1, "w": 8.0, "h": 0.6,
+          "value": "{{content.cta_text}}",
+          "options": {
+            "fontSize": 16, "color": "CCCCCC", "align": "center",
+            "fontFace": "{{font_body}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "cta_date",
+          "x": 1.0, "y": 2.75, "w": 8.0, "h": 0.4,
+          "value": "{{cta.suggested_date}}",
+          "options": {
+            "fontSize": 13, "color": "{{accent}}", "align": "center",
+            "fontFace": "{{font_body}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "provider_contact",
+          "x": 1.0, "y": 3.5, "w": 8.0, "h": 0.35,
+          "value": "{{provider.name}}  ·  {{provider.email}}",
+          "options": {
+            "fontSize": 12, "color": "AAAAAA", "align": "center",
+            "fontFace": "{{font_note}}"
+          }
+        },
+        {
+          "type": "text",
+          "name": "validity",
+          "x": 1.0, "y": 4.8, "w": 8.0, "h": 0.25,
+          "value": "{{labels.valid}} {{valid_days}} {{labels.days}}  ·  {{id}}",
+          "options": {
+            "fontSize": 9, "color": "AAAAAA", "align": "center",
+            "fontFace": "{{font_note}}"
+          }
+        }
+      ]
+    }
+  ],
+
+  "labels": {
+    "_note": "generate-all.js selects the correct locale block based on ProposalData.i18n",
+    "es": {
+      "challenge_tag":    "EL RETO",
+      "challenge":        "El Desafío",
+      "solution_tag":     "LA SOLUCIÓN",
+      "solution":         "Nuestra Propuesta",
+      "scope_tag":        "ALCANCE",
+      "scope":            "¿Qué Incluye?",
+      "investment_tag":   "INVERSIÓN",
+      "investment":       "Inversión",
+      "why_tag":          "¿POR QUÉ NOSOTROS?",
+      "why":              "Por Qué MetodologIA",
+      "next_step":        "¿Cuál es el siguiente paso?",
+      "valid":            "Válido",
+      "days":             "días",
+      "service":          "Servicio",
+      "description":      "Descripción",
+      "price":            "Precio",
+      "total":            "Total",
+      "subtotal":         "Subtotal",
+      "usd_disclaimer":   "Tasa indicativa, sujeta a variación"
+    },
+    "en": {
+      "challenge_tag":    "THE CHALLENGE",
+      "challenge":        "The Challenge",
+      "solution_tag":     "THE SOLUTION",
+      "solution":         "Our Proposal",
+      "scope_tag":        "SCOPE",
+      "scope":            "What's Included",
+      "investment_tag":   "INVESTMENT",
+      "investment":       "Investment",
+      "why_tag":          "WHY US?",
+      "why":              "Why MetodologIA",
+      "next_step":        "What's the next step?",
+      "valid":            "Valid",
+      "days":             "days",
+      "service":          "Service",
+      "description":      "Description",
+      "price":            "Price",
+      "total":            "Total",
+      "subtotal":         "Subtotal",
+      "usd_disclaimer":   "Indicative rate, subject to variation"
+    }
+  },
+
+  "whitelabel_overrides": {
+    "_note": "When brand_mode=whitelabel, generate-all.js applies these overrides before rendering",
+    "strip_metodologia_from_author": true,
+    "strip_metodologia_from_subject": true,
+    "replace_why_slide_title_with": "{{brand.logo.primary_name}}",
+    "footer_text_template": "{{brand.logo.primary_name}} — {{id}}"
+  }
+}

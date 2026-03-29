@@ -1,47 +1,58 @@
 ---
-description: "Update the MetodologIA service catalog. Add new services, modify prices, resolve [POR CONFIRMAR] items, or update conditions. Follows the cascade protocol (48h SLA). Use: /actualizar-catalogo [description of change]"
+description: "Update the MetodologIA service catalog. Add new services, modify prices, resolve [POR CONFIRMAR] items, or update conditions. Requires written authorization for confirmed changes. Follows cascade protocol (48h SLA). Use: /actualizar-catalogo [description of change]"
 user-invocable: true
 ---
 
 # /actualizar-catalogo — Catalog Update
 
-Activate `catalog-curator` in EDIT mode with the following context:
+Activate `catalog-curator` in EDIT mode.
 
 **Change requested:** `$ARGUMENTS`
 
-**Task:** Make the requested catalog change following the cascade protocol. Always validate before writing.
+---
 
-Detect the type of change from `$ARGUMENTS`:
+## Authority check (before any write)
 
-**ADD new service:**
-- Parse the new service details from input
-- Validate against ServiceDefinition schema (references/schemas.md)
-- Ask for missing required fields ONE AT A TIME before writing
-- Write to `catalog/services.yaml`
-- Follow cascade: update conditions.yaml if needed, create canonico.md stub, log in CHANGELOG.md
+`catalog-curator` will verify authorization before modifying the catalog. The required authority per change type is defined in `catalog-curator.md`. Key rule: **oral confirmation is not sufficient** — written confirmation (email, Slack message, explicit statement quoting JM's written words) is required for all price changes and PC resolutions.
 
-**UPDATE existing service:**
-- Identify slug from input
-- Read current entry
-- Apply surgical edit (not full rewrite)
-- If price change: note old price, new price, effective date
-- Log in CHANGELOG.md
+---
 
-**RESOLVE [POR CONFIRMAR]:**
-- Identify which PC item is being resolved (PC-01 through PC-14)
-- Apply the confirmed value to the relevant YAML entry
-- Update status to CONFIRMED
-- Log resolution date and confirming authority
-- Alert: "PC-[N] resolved. Update proposals generated before [date] if they contain conditional language."
+## Change type detection
 
-**LIST pending [POR CONFIRMAR]:**
-If `$ARGUMENTS` contains "pending" or "por confirmar":
-```bash
-grep -n "POR_CONFIRMAR\|POR CONFIRMAR" skills/metodologia-proposal-engine/catalog/*.yaml
-```
-Present as a table with ID, item, current wording, and required confirming authority.
+`catalog-curator` detects the change type from `$ARGUMENTS`:
 
-**If $ARGUMENTS is empty:** Ask: "What would you like to update? (add service / modify price / resolve [POR CONFIRMAR] / list services)"
+| Input pattern | Change type |
+|--------------|-------------|
+| "agregar servicio", "add service", "nuevo servicio" | ADD — parse definition, validate schema, write |
+| "cambiar precio", "price change", "actualizar precio" | UPDATE — surgical edit, log old/new/date |
+| "confirmar PC-[N]", "resolved PC-[N]", "JM confirmó" | RESOLVE PC — authority check, then update |
+| "pending", "por confirmar", "listar PC" | LIST — show all active PC items as table |
+| (empty) | Ask: "¿Qué quieres actualizar? (agregar servicio / modificar precio / resolver [POR CONFIRMAR] / listar servicios)" |
 
-Cascade reminder after every write:
-"Change applied. Cascade items requiring follow-up within 48h: [list if applicable]"
+---
+
+## What catalog-curator will do
+
+For each change type:
+
+**ADD:** Validate required fields → check slug uniqueness → write to `services.yaml` → cascade to `conditions.yaml`, `segments.yaml`, `canonico.md` stub → log CHANGELOG.
+
+**UPDATE:** Read current entry → apply surgical edit → record old+new values → log CHANGELOG.
+
+**RESOLVE PC:** Verify written authority → update `conditions.yaml` → update `services.yaml` affected entries → remove conditional wording → update CLAUDE.md PC table → log CHANGELOG.
+
+**LIST pending:** `grep -n "POR_CONFIRMAR\|POR CONFIRMAR" skills/metodologia-proposal-engine/catalog/*.yaml` → present as table with PC item ID, affected service, required authority, and conditional wording to use until resolved.
+
+---
+
+## Cascade reminder
+
+After every write, `catalog-curator` will list cascade items with 48h SLA. Human follow-up is required for derived document updates (audience-version files, CLAUDE.md summary, etc.).
+
+---
+
+## Edge cases
+
+- **Conflicting information (two prices for same service):** Pause; show the conflict; ask which is correct. Do not guess.
+- **Batch update (multiple changes at once):** Process one change at a time. Confirm each before moving to the next.
+- **Request to delete a service:** Flag that deletion is irreversible. Suggest `status: deprecated` instead. Require explicit confirmation with "yes, delete [slug]" before any removal.
